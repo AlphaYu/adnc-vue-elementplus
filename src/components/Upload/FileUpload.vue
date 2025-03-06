@@ -24,7 +24,7 @@
           <a class="el-upload-list__item-name" @click="handleDownload(file)">
             <el-icon><Document /></el-icon>
             <span class="el-upload-list__item-file-name">{{ file.name }}</span>
-            <span class="el-icon--close" @click="handleRemove(file.url!)">
+            <span class="el-icon--close" @click.stop="handleRemove(file.url!)">
               <el-icon><Close /></el-icon>
             </span>
           </a>
@@ -45,6 +45,7 @@
 import {
   UploadRawFile,
   UploadUserFile,
+  UploadFile,
   UploadProgressEvent,
   UploadRequestOptions,
 } from "element-plus";
@@ -111,12 +112,12 @@ const props = defineProps({
 });
 
 const modelValue = defineModel("modelValue", {
-  type: [Array] as PropType<string[]>,
+  type: [Array] as PropType<FileInfo[]>,
   required: true,
   default: () => [],
 });
 
-const fileList = ref([] as UploadUserFile[]);
+const fileList = ref([] as UploadFile[]);
 
 const showProgress = ref(false);
 const progressPercent = ref(0);
@@ -125,12 +126,14 @@ const progressPercent = ref(0);
 watch(
   modelValue,
   (value) => {
-    fileList.value = value.map((url) => {
-      const name = url.substring(url.lastIndexOf("/") + 1);
+    fileList.value = value.map((item) => {
+      const name = item.name ? item.name : item.url?.substring(item.url.lastIndexOf("/") + 1);
       return {
         name: name,
-        url: url,
-      } as UploadUserFile;
+        url: item.url,
+        status: "success",
+        uid: getUid(),
+      } as UploadFile;
     });
   },
   {
@@ -189,7 +192,8 @@ const handleProgress = (event: UploadProgressEvent) => {
  */
 const handleSuccess = (fileInfo: FileInfo) => {
   ElMessage.success("上传成功");
-  modelValue.value = [...modelValue.value, fileInfo.url];
+
+  modelValue.value = [...modelValue.value, { name: fileInfo.name, url: fileInfo.url } as FileInfo];
 };
 
 /**
@@ -205,7 +209,7 @@ const handleError = (_error: any) => {
  */
 function handleRemove(fileUrl: string) {
   FileAPI.delete(fileUrl).then(() => {
-    modelValue.value = modelValue.value.filter((url) => url !== fileUrl);
+    modelValue.value = modelValue.value.filter((file) => file.url !== fileUrl);
   });
 }
 
@@ -217,6 +221,12 @@ function handleDownload(file: UploadUserFile) {
   if (url) {
     FileAPI.download(url, name);
   }
+}
+
+/** 获取一个不重复的id */
+function getUid(): number {
+  // 时间戳左移13位（相当于乘以8192） + 4位随机数
+  return (Date.now() << 13) | Math.floor(Math.random() * 8192);
 }
 </script>
 <style lang="scss" scoped>
