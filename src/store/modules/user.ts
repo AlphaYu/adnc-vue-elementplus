@@ -99,6 +99,7 @@ export const useUserStore = defineStore("user", () => {
       clearToken();
       usePermissionStoreHook().resetRouter();
       useDictStoreHook().clearDictionaryCache();
+      userInfo.value = {} as UserInfo;
       resolve();
     });
   }

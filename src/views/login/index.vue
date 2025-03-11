@@ -84,7 +84,7 @@
         </el-tooltip>
 
         <!-- 验证码 -->
-        <el-form-item prop="captchaCode">
+        <el-form-item v-show="false" prop="captchaCode">
           <div class="input-wrapper">
             <div class="i-svg:captcha mx-2" />
 
@@ -138,7 +138,7 @@
     <!-- 登录页底部 -->
     <div class="login-footer">
       <el-text size="small">
-        Copyright © 2021 - 2025 youlai.tech All Rights Reserved.
+        Copyright © 2021 - 2025 ADNC All Rights Reserved.
         <a href="http://beian.miit.gov.cn/" target="_blank">皖ICP备20006496号-2</a>
       </el-text>
     </div>
@@ -173,8 +173,8 @@ const isCapslock = ref(false); // 是否大写锁定
 const captchaBase64 = ref(); // 验证码图片Base64字符串
 
 const loginFormData = ref<LoginFormData>({
-  username: "admin",
-  password: "123456",
+  username: "alpha2008",
+  password: "alpha2008",
   captchaKey: "",
   captchaCode: "",
 });
@@ -202,7 +202,7 @@ const loginRules = computed(() => {
     ],
     captchaCode: [
       {
-        required: true,
+        required: false,
         trigger: "blur",
         message: t("login.message.captchaCode.required"),
       },
@@ -228,13 +228,13 @@ async function handleLoginSubmit() {
         .then(async () => {
           await userStore.getUserInfo();
           // 需要在路由跳转前加载字典数据，否则会出现字典数据未加载完成导致页面渲染异常
-          await dictStore.loadDictionaries();
+          // await dictStore.loadDictionaries();
           // 跳转到登录前的页面
           const { path, queryParams } = parseRedirect();
           router.push({ path: path, query: queryParams });
         })
         .catch(() => {
-          getCaptcha();
+          //getCaptcha();
         })
         .finally(() => {
           loading.value = false;
@@ -287,7 +287,7 @@ const setLoginCredentials = (username: string, password: string) => {
 };
 
 onMounted(() => {
-  getCaptcha();
+  // getCaptcha();
 });
 </script>
 

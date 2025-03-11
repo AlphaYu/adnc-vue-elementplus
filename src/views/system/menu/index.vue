@@ -20,10 +20,10 @@
     <el-card shadow="never">
       <div class="mb-10px">
         <el-button
-          v-hasPerm="['sys:menu:add']"
+          v-hasPerm="['menu-create']"
           type="success"
           icon="plus"
-          @click="handleOpenDialog('0')"
+          @click="handleOpenDialog(0)"
         >
           新增
         </el-button>
@@ -68,16 +68,16 @@
         <el-table-column label="权限标识" align="center" width="200" prop="perm" />
         <el-table-column label="状态" align="center" width="80">
           <template #default="scope">
-            <el-tag v-if="scope.row.visible === 1" type="success">显示</el-tag>
+            <el-tag v-if="scope.row.visible == true" type="success">显示</el-tag>
             <el-tag v-else type="info">隐藏</el-tag>
           </template>
         </el-table-column>
-        <el-table-column label="排序" align="center" width="80" prop="sort" />
+        <el-table-column label="排序" align="center" width="80" prop="ordinal" />
         <el-table-column fixed="right" align="center" label="操作" width="220">
           <template #default="scope">
             <el-button
               v-if="scope.row.type == 'CATALOG' || scope.row.type == 'MENU'"
-              v-hasPerm="['sys:menu:add']"
+              v-hasPerm="['menu-create']"
               type="primary"
               link
               size="small"
@@ -88,7 +88,7 @@
             </el-button>
 
             <el-button
-              v-hasPerm="['sys:menu:edit']"
+              v-hasPerm="['menu-update']"
               type="primary"
               link
               size="small"
@@ -98,7 +98,7 @@
               编辑
             </el-button>
             <el-button
-              v-hasPerm="['sys:menu:delete']"
+              v-hasPerm="['menu-delete']"
               type="danger"
               link
               size="small"
@@ -256,8 +256,8 @@
 
         <el-form-item v-if="formData.type !== MenuTypeEnum.BUTTON" prop="visible" label="显示状态">
           <el-radio-group v-model="formData.visible">
-            <el-radio :value="1">显示</el-radio>
-            <el-radio :value="0">隐藏</el-radio>
+            <el-radio :value="true">显示</el-radio>
+            <el-radio :value="false">隐藏</el-radio>
           </el-radio-group>
         </el-form-item>
 
@@ -283,21 +283,21 @@
           </template>
 
           <el-radio-group v-model="formData.alwaysShow">
-            <el-radio :value="1">是</el-radio>
-            <el-radio :value="0">否</el-radio>
+            <el-radio :value="true">是</el-radio>
+            <el-radio :value="false">否</el-radio>
           </el-radio-group>
         </el-form-item>
 
         <el-form-item v-if="formData.type === MenuTypeEnum.MENU" label="缓存页面">
           <el-radio-group v-model="formData.keepAlive">
-            <el-radio :value="1">开启</el-radio>
-            <el-radio :value="0">关闭</el-radio>
+            <el-radio :value="true">开启</el-radio>
+            <el-radio :value="false">关闭</el-radio>
           </el-radio-group>
         </el-form-item>
 
-        <el-form-item label="排序" prop="sort">
+        <el-form-item label="排序" prop="ordinal">
           <el-input-number
-            v-model="formData.sort"
+            v-model="formData.ordinal"
             style="width: 100px"
             controls-position="right"
             :min="0"
@@ -306,7 +306,7 @@
 
         <!-- 权限标识 -->
         <el-form-item v-if="formData.type == MenuTypeEnum.BUTTON" label="权限标识" prop="perm">
-          <el-input v-model="formData.perm" placeholder="sys:user:add" />
+          <el-input v-model="formData.perm" placeholder="user-create" />
         </el-form-item>
 
         <el-form-item v-if="formData.type !== MenuTypeEnum.BUTTON" label="图标" prop="icon">
@@ -340,7 +340,6 @@ import { MenuTypeEnum } from "@/enums/MenuTypeEnum";
 
 const queryFormRef = ref();
 const menuFormRef = ref();
-
 const loading = ref(false);
 const dialog = reactive({
   title: "新增菜单",
@@ -355,13 +354,13 @@ const menuTableData = ref<MenuVO[]>([]);
 const menuOptions = ref<OptionType[]>([]);
 // 初始菜单表单数据
 const initialMenuFormData = ref<MenuForm>({
-  id: undefined,
-  parentId: "0",
-  visible: 1,
-  sort: 1,
+  id: 0,
+  parentId: 0,
+  visible: true,
+  ordinal: 1,
   type: MenuTypeEnum.MENU, // 默认菜单
-  alwaysShow: 0,
-  keepAlive: 1,
+  alwaysShow: false,
+  keepAlive: true,
   params: [],
 });
 // 菜单表单数据
@@ -409,10 +408,10 @@ function handleRowClick(row: MenuVO) {
  * @param parentId 父菜单ID
  * @param menuId 菜单ID
  */
-function handleOpenDialog(parentId?: string, menuId?: string) {
+function handleOpenDialog(parentId?: number, menuId?: number) {
   MenuAPI.getOptions(true)
     .then((data) => {
-      menuOptions.value = [{ value: "0", label: "顶级菜单", children: data }];
+      menuOptions.value = [{ value: 0, label: "顶级菜单", children: data }];
     })
     .then(() => {
       dialog.visible = true;
@@ -424,7 +423,7 @@ function handleOpenDialog(parentId?: string, menuId?: string) {
         });
       } else {
         dialog.title = "新增菜单";
-        formData.value.parentId = parentId?.toString();
+        formData.value.parentId = parentId ? parentId : 0;
       }
     });
 }
@@ -508,13 +507,13 @@ function resetForm() {
   menuFormRef.value.resetFields();
   menuFormRef.value.clearValidate();
   formData.value = {
-    id: undefined,
-    parentId: "0",
-    visible: 1,
-    sort: 1,
+    id: 0,
+    parentId: 0,
+    visible: true,
+    ordinal: 1,
     type: MenuTypeEnum.MENU, // 默认菜单
-    alwaysShow: 0,
-    keepAlive: 1,
+    alwaysShow: false,
+    keepAlive: true,
     params: [],
   };
 }
