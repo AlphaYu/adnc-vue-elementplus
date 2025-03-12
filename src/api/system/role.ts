@@ -1,6 +1,6 @@
 import request from "@/utils/request";
 
-const ROLE_BASE_URL = "/api/v1/roles";
+const ROLE_BASE_URL = "/usr/roles";
 
 const RoleAPI = {
   /** 获取角色分页数据 */
@@ -27,7 +27,7 @@ const RoleAPI = {
    */
   getRoleMenuIds(roleId: number) {
     return request<any, number[]>({
-      url: `${ROLE_BASE_URL}/${roleId}/menuIds`,
+      url: `${ROLE_BASE_URL}/${roleId}/menuids`,
       method: "get",
     });
   },
@@ -40,7 +40,7 @@ const RoleAPI = {
    */
   updateRoleMenus(roleId: number, data: number[]) {
     return request({
-      url: `${ROLE_BASE_URL}/${roleId}/menus`,
+      url: `${ROLE_BASE_URL}/${roleId}/permissons`,
       method: "put",
       data: data,
     });
@@ -54,7 +54,7 @@ const RoleAPI = {
    */
   getFormData(id: number) {
     return request<any, RoleForm>({
-      url: `${ROLE_BASE_URL}/${id}/form`,
+      url: `${ROLE_BASE_URL}/${id}`,
       method: "get",
     });
   },
@@ -112,9 +112,9 @@ export interface RolePageVO {
   /** 角色名称 */
   name?: string;
   /** 排序 */
-  sort?: number;
+  ordinal?: number;
   /** 角色状态 */
-  status?: number;
+  status?: boolean;
   /** 创建时间 */
   createTime?: Date;
   /** 修改时间 */
@@ -132,7 +132,7 @@ export interface RoleForm {
   /** 角色名称 */
   name?: string;
   /** 排序 */
-  sort?: number;
+  ordinal?: number;
   /** 角色状态(1-正常；0-停用) */
-  status?: number;
+  status?: boolean;
 }

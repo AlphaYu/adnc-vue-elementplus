@@ -40,12 +40,12 @@
 
         <el-table-column label="状态" align="center" width="100">
           <template #default="scope">
-            <el-tag v-if="scope.row.status === 1" type="success">正常</el-tag>
+            <el-tag v-if="scope.row.status == true" type="success">正常</el-tag>
             <el-tag v-else type="info">禁用</el-tag>
           </template>
         </el-table-column>
 
-        <el-table-column label="排序" align="center" width="80" prop="sort" />
+        <el-table-column label="排序" align="center" width="80" prop="ordinal" />
 
         <el-table-column fixed="right" label="操作" width="220">
           <template #default="scope">
@@ -83,7 +83,7 @@
       <pagination
         v-if="total > 0"
         v-model:total="total"
-        v-model:page="queryParams.pageNum"
+        v-model:page="queryParams.pageIndex"
         v-model:limit="queryParams.pageSize"
         @pagination="handleQuery"
       />
@@ -116,14 +116,14 @@
 
         <el-form-item label="状态" prop="status">
           <el-radio-group v-model="formData.status">
-            <el-radio :value="1">正常</el-radio>
-            <el-radio :value="0">停用</el-radio>
+            <el-radio :value="true">正常</el-radio>
+            <el-radio :value="false">停用</el-radio>
           </el-radio-group>
         </el-form-item>
 
-        <el-form-item label="排序" prop="sort">
+        <el-form-item label="排序" prop="ordinal">
           <el-input-number
-            v-model="formData.sort"
+            v-model="formData.ordinal"
             controls-position="right"
             :min="0"
             style="width: 100px"
@@ -220,7 +220,7 @@ const ids = ref<number[]>([]);
 const total = ref(0);
 
 const queryParams = reactive<RolePageQuery>({
-  pageNum: 1,
+  pageIndex: 1,
   pageSize: 10,
 });
 
@@ -236,8 +236,8 @@ const dialog = reactive({
 });
 // 角色表单
 const formData = reactive<RoleForm>({
-  sort: 1,
-  status: 1,
+  ordinal: 1,
+  status: true,
 });
 
 const rules = reactive({
@@ -276,7 +276,7 @@ function handleQuery() {
 // 重置查询
 function handleResetQuery() {
   queryFormRef.value.resetFields();
-  queryParams.pageNum = 1;
+  queryParams.pageIndex = 1;
   handleQuery();
 }
 
@@ -333,13 +333,13 @@ function handleCloseDialog() {
   roleFormRef.value.clearValidate();
 
   formData.id = undefined;
-  formData.sort = 1;
-  formData.status = 1;
+  formData.ordinal = 1;
+  formData.status = true;
 }
 
 // 删除角色
 function handleDelete(roleId?: number) {
-  const roleIds = [roleId || ids.value].join(",");
+  const roleIds = roleId ? [roleId] : ids.value;
   if (!roleIds) {
     ElMessage.warning("请勾选删除项");
     return;
@@ -352,7 +352,7 @@ function handleDelete(roleId?: number) {
   }).then(
     () => {
       loading.value = true;
-      RoleAPI.deleteByIds(roleIds)
+      RoleAPI.deleteByIds(roleIds.join(","))
         .then(() => {
           ElMessage.success("删除成功");
           handleResetQuery();

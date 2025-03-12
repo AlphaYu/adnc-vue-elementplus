@@ -1,6 +1,6 @@
 import request from "@/utils/request";
 
-const DEPT_BASE_URL = "/api/v1/dept";
+const DEPT_BASE_URL = "/usr/organizations";
 
 const DeptAPI = {
   /**
@@ -33,7 +33,7 @@ const DeptAPI = {
    */
   getFormData(id: number) {
     return request<any, DeptForm>({
-      url: `${DEPT_BASE_URL}/${id}/form`,
+      url: `${DEPT_BASE_URL}/${id}`,
       method: "get",
     });
   },
@@ -59,7 +59,7 @@ const DeptAPI = {
    * @param data 部门表单数据
    * @returns 请求结果
    */
-  update(id: string, data: DeptForm) {
+  update(id: number, data: DeptForm) {
     return request({
       url: `${DEPT_BASE_URL}/${id}`,
       method: "put",
@@ -88,7 +88,7 @@ export interface DeptQuery {
   /** 搜索关键字 */
   keywords?: string;
   /** 状态 */
-  status?: number;
+  status?: boolean;
 }
 
 /** 部门类型 */
@@ -106,9 +106,9 @@ export interface DeptVO {
   /** 父部门ID */
   parentId?: number;
   /** 排序 */
-  sort?: number;
+  ordinal?: number;
   /** 状态(1:启用；0:禁用) */
-  status?: number;
+  status?: boolean;
   /** 修改时间 */
   updateTime?: Date;
 }
@@ -116,15 +116,15 @@ export interface DeptVO {
 /** 部门表单类型 */
 export interface DeptForm {
   /** 部门ID(新增不填) */
-  id?: string;
+  id?: number;
   /** 部门名称 */
   name?: string;
   /** 部门编号 */
   code?: string;
   /** 父部门ID */
-  parentId: string;
+  parentId: number;
   /** 排序 */
-  sort?: number;
+  ordinal?: number;
   /** 状态(1:启用；0：禁用) */
-  status?: number;
+  status?: boolean;
 }

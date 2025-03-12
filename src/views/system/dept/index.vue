@@ -12,8 +12,8 @@
 
         <el-form-item label="部门状态" prop="status">
           <el-select v-model="queryParams.status" placeholder="全部" clearable class="!w-[100px]">
-            <el-option :value="1" label="正常" />
-            <el-option :value="0" label="禁用" />
+            <el-option :value="true" label="正常" />
+            <el-option :value="false" label="禁用" />
           </el-select>
         </el-form-item>
         <el-form-item>
@@ -28,7 +28,7 @@
     <el-card shadow="never">
       <div class="mb-10px">
         <el-button
-          v-hasPerm="['sys:dept:add']"
+          v-hasPerm="['org-create']"
           type="success"
           icon="plus"
           @click="handleOpenDialog()"
@@ -36,7 +36,7 @@
           新增
         </el-button>
         <el-button
-          v-hasPerm="['sys:dept:delete']"
+          v-hasPerm="['org-delete']"
           type="danger"
           :disabled="selectIds.length === 0"
           icon="delete"
@@ -59,17 +59,17 @@
         <el-table-column prop="code" label="部门编号" width="200" />
         <el-table-column prop="status" label="状态" width="100">
           <template #default="scope">
-            <el-tag v-if="scope.row.status == 1" type="success">正常</el-tag>
+            <el-tag v-if="scope.row.status == true" type="success">正常</el-tag>
             <el-tag v-else type="info">禁用</el-tag>
           </template>
         </el-table-column>
 
-        <el-table-column prop="sort" label="排序" width="100" />
+        <el-table-column prop="ordinal" label="排序" width="100" />
 
         <el-table-column label="操作" fixed="right" align="left" width="200">
           <template #default="scope">
             <el-button
-              v-hasPerm="['sys:dept:add']"
+              v-hasPerm="['org-create']"
               type="primary"
               link
               size="small"
@@ -79,7 +79,7 @@
               新增
             </el-button>
             <el-button
-              v-hasPerm="['sys:dept:edit']"
+              v-hasPerm="['org-update']"
               type="primary"
               link
               size="small"
@@ -89,7 +89,7 @@
               编辑
             </el-button>
             <el-button
-              v-hasPerm="['sys:dept:delete']"
+              v-hasPerm="['org-delete']"
               type="danger"
               link
               size="small"
@@ -126,9 +126,9 @@
         <el-form-item label="部门编号" prop="code">
           <el-input v-model="formData.code" placeholder="请输入部门编号" />
         </el-form-item>
-        <el-form-item label="显示排序" prop="sort">
+        <el-form-item label="显示排序" prop="ordinal">
           <el-input-number
-            v-model="formData.sort"
+            v-model="formData.ordinal"
             controls-position="right"
             style="width: 100px"
             :min="0"
@@ -136,8 +136,8 @@
         </el-form-item>
         <el-form-item label="部门状态">
           <el-radio-group v-model="formData.status">
-            <el-radio :value="1">正常</el-radio>
-            <el-radio :value="0">禁用</el-radio>
+            <el-radio :value="true">正常</el-radio>
+            <el-radio :value="false">禁用</el-radio>
           </el-radio-group>
         </el-form-item>
       </el-form>
@@ -175,16 +175,16 @@ const dialog = reactive({
 const deptList = ref<DeptVO[]>();
 const deptOptions = ref<OptionType[]>();
 const formData = reactive<DeptForm>({
-  status: 1,
-  parentId: "0",
-  sort: 1,
+  status: true,
+  parentId: 0,
+  ordinal: 1,
 });
 
 const rules = reactive({
   parentId: [{ required: true, message: "上级部门不能为空", trigger: "change" }],
   name: [{ required: true, message: "部门名称不能为空", trigger: "blur" }],
   code: [{ required: true, message: "部门编号不能为空", trigger: "blur" }],
-  sort: [{ required: true, message: "显示排序不能为空", trigger: "blur" }],
+  ordinal: [{ required: true, message: "显示排序不能为空", trigger: "blur" }],
 });
 
 // 查询部门
@@ -213,12 +213,12 @@ function handleSelectionChange(selection: any) {
  * @param parentId 父部门ID
  * @param deptId 部门ID
  */
-async function handleOpenDialog(parentId?: string, deptId?: number) {
+async function handleOpenDialog(parentId?: number, deptId?: number) {
   // 加载部门下拉数据
   const data = await DeptAPI.getOptions();
   deptOptions.value = [
     {
-      value: "0",
+      value: 0,
       label: "顶级部门",
       children: data,
     },
@@ -232,7 +232,7 @@ async function handleOpenDialog(parentId?: string, deptId?: number) {
     });
   } else {
     dialog.title = "新增部门";
-    formData.parentId = parentId || "0";
+    formData.parentId = parentId || 0;
   }
 }
 
@@ -298,9 +298,9 @@ function resetForm() {
   deptFormRef.value.clearValidate();
 
   formData.id = undefined;
-  formData.parentId = "0";
-  formData.status = 1;
-  formData.sort = 1;
+  formData.parentId = 0;
+  formData.status = true;
+  formData.ordinal = 1;
 }
 
 // 关闭弹窗
