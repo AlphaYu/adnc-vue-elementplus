@@ -1,7 +1,7 @@
 import axios, { type InternalAxiosRequestConfig, type AxiosResponse } from "axios";
 import qs from "qs";
-import { useUserStoreHook } from "@/store/modules/user";
-import { ResultEnum } from "@/enums/ResultEnum";
+// import { useUserStoreHook } from "@/store/modules/user";
+// import { ResultEnum } from "@/enums/ResultEnum";
 import { getAccessToken } from "@/utils/auth";
 import router from "@/router";
 
@@ -35,29 +35,32 @@ service.interceptors.response.use(
     if (response.config.responseType === "blob") {
       return response;
     }
-
-    const { code, data, msg } = response.data;
-    if (code === ResultEnum.SUCCESS) {
-      return data;
-    }
-
-    ElMessage.error(msg || "系统出错");
-    return Promise.reject(new Error(msg || "Error"));
+    return response.data;
   },
   async (error) => {
     console.error("request error", error); // for debug
-    // 非 2xx 状态码处理 401、403、500 等
-    const { config, response } = error;
+    const { response } = error;
     if (response) {
-      const { code, msg } = response.data;
-      if (code === ResultEnum.ACCESS_TOKEN_INVALID) {
-        // Token 过期，刷新 Token
-        return handleTokenRefresh(config);
-      } else if (code === ResultEnum.REFRESH_TOKEN_INVALID) {
-        return Promise.reject(new Error(msg || "Error"));
-      } else {
-        ElMessage.error(msg || "系统出错");
+      const { status, data } = response;
+      if (data && data.title && data.detail) {
+        error.message += `\n${data.title}, ${data.detail}`;
       }
+
+      ElMessage.error(error.message || "系统出错");
+
+      if (status === 401) {
+        console.log("===401");
+        const backtoUrl = encodeURIComponent(router.currentRoute.value.fullPath);
+        router.push(`/login?backto=${backtoUrl}`);
+      }
+      // if (code === ResultEnum.ACCESS_TOKEN_INVALID) {
+      //   // Token 过期，刷新 Token
+      //   return handleTokenRefresh(config);
+      // } else if (code === ResultEnum.REFRESH_TOKEN_INVALID) {
+      //   return Promise.reject(new Error(msg || "Error"));
+      // } else {
+      //   ElMessage.error(msg || "系统出错");
+      // }
     }
     return Promise.reject(error.message);
   }
@@ -65,6 +68,7 @@ service.interceptors.response.use(
 
 export default service;
 
+/*
 // 是否正在刷新标识，避免重复刷新
 let isRefreshing = false;
 // 因 Token 过期导致的请求等待队列
@@ -112,3 +116,4 @@ async function handleTokenRefresh(config: InternalAxiosRequestConfig) {
     }
   });
 }
+*/

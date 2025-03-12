@@ -28,8 +28,8 @@
                 clearable
                 class="!w-[100px]"
               >
-                <el-option label="正常" :value="1" />
-                <el-option label="禁用" :value="0" />
+                <el-option label="正常" :value="true" />
+                <el-option label="禁用" :value="false" />
               </el-select>
             </el-form-item>
 
@@ -57,7 +57,7 @@
           <div class="flex-x-between mb-10px">
             <div>
               <el-button
-                v-hasPerm="['sys:user:add']"
+                v-hasPerm="['user-create']"
                 type="success"
                 icon="plus"
                 @click="handleOpenDialog()"
@@ -65,7 +65,7 @@
                 新增
               </el-button>
               <el-button
-                v-hasPerm="'sys:user:delete'"
+                v-hasPerm="'user-delete'"
                 type="danger"
                 icon="delete"
                 :disabled="selectIds.length === 0"
@@ -75,15 +75,11 @@
               </el-button>
             </div>
             <div>
-              <el-button
-                v-hasPerm="'sys:user:import'"
-                icon="upload"
-                @click="handleOpenImportDialog"
-              >
+              <el-button v-hasPerm="'user-import'" icon="upload" @click="handleOpenImportDialog">
                 导入
               </el-button>
 
-              <el-button v-hasPerm="'sys:user:export'" icon="download" @click="handleExport">
+              <el-button v-hasPerm="'user-export'" icon="download" @click="handleExport">
                 导出
               </el-button>
             </div>
@@ -91,12 +87,14 @@
 
           <el-table v-loading="loading" :data="pageData" @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="50" align="center" />
-            <el-table-column label="用户名" prop="username" />
-            <el-table-column label="昵称" width="150" align="center" prop="nickname" />
+            <el-table-column label="用户名" prop="account" />
+            <el-table-column label="昵称" width="150" align="center" prop="name" />
             <el-table-column label="性别" width="100" align="center">
               <template #default="scope">
-                <!-- 性别字典翻译 -->
-                <DictLabel v-model="scope.row.gender" code="gender" />
+                <!--<DictLabel v-model="scope.row.gender" code="gender" />-->
+                <el-tag :type="scope.row.gender > 0 ? 'success' : 'info'">
+                  {{ scope.row.gender === 1 ? "男" : scope.row.gender === 2 ? "女" : "保密" }}
+                </el-tag>
               </template>
             </el-table-column>
             <el-table-column label="部门" width="120" align="center" prop="deptName" />
@@ -104,8 +102,8 @@
             <el-table-column label="邮箱" align="center" prop="email" width="160" />
             <el-table-column label="状态" align="center" prop="status" width="80">
               <template #default="scope">
-                <el-tag :type="scope.row.status == 1 ? 'success' : 'info'">
-                  {{ scope.row.status == 1 ? "正常" : "禁用" }}
+                <el-tag :type="scope.row.status == true ? 'success' : 'info'">
+                  {{ scope.row.status == true ? "正常" : "禁用" }}
                 </el-tag>
               </template>
             </el-table-column>
@@ -113,7 +111,7 @@
             <el-table-column label="操作" fixed="right" width="220">
               <template #default="scope">
                 <el-button
-                  v-hasPerm="'sys:user:password:reset'"
+                  v-hasPerm="'user-reset-password'"
                   type="primary"
                   icon="RefreshLeft"
                   size="small"
@@ -123,7 +121,7 @@
                   重置密码
                 </el-button>
                 <el-button
-                  v-hasPerm="'sys:user:edit'"
+                  v-hasPerm="'user-update'"
                   type="primary"
                   icon="edit"
                   link
@@ -133,7 +131,7 @@
                   编辑
                 </el-button>
                 <el-button
-                  v-hasPerm="'sys:user:delete'"
+                  v-hasPerm="'user-delete'"
                   type="danger"
                   icon="delete"
                   link
@@ -149,7 +147,7 @@
           <pagination
             v-if="total > 0"
             v-model:total="total"
-            v-model:page="queryParams.pageNum"
+            v-model:page="queryParams.pageIndex"
             v-model:limit="queryParams.pageSize"
             @pagination="handleQuery"
           />
@@ -165,16 +163,16 @@
       @close="handleCloseDialog"
     >
       <el-form ref="userFormRef" :model="formData" :rules="rules" label-width="80px">
-        <el-form-item label="用户名" prop="username">
+        <el-form-item label="用户名" prop="account">
           <el-input
-            v-model="formData.username"
+            v-model="formData.account"
             :readonly="!!formData.id"
             placeholder="请输入用户名"
           />
         </el-form-item>
 
-        <el-form-item label="用户昵称" prop="nickname">
-          <el-input v-model="formData.nickname" placeholder="请输入用户昵称" />
+        <el-form-item label="用户昵称" prop="name">
+          <el-input v-model="formData.name" placeholder="请输入用户昵称" />
         </el-form-item>
 
         <el-form-item label="所属部门" prop="deptId">
@@ -189,7 +187,11 @@
         </el-form-item>
 
         <el-form-item label="性别" prop="gender">
-          <Dict v-model="formData.gender" code="gender" />
+          <el-select v-model="formData.gender">
+            <el-option :key="0" label="保密" :value="0" />
+            <el-option :key="1" label="男" :value="1" />
+            <el-option :key="2" label="女" :value="2" />
+          </el-select>
         </el-form-item>
 
         <el-form-item label="角色" prop="roleIds">
@@ -217,8 +219,8 @@
             inline-prompt
             active-text="正常"
             inactive-text="禁用"
-            :active-value="1"
-            :inactive-value="0"
+            :active-value="true"
+            :inactive-value="false"
           />
         </el-form-item>
       </el-form>
@@ -253,7 +255,7 @@ const queryFormRef = ref();
 const userFormRef = ref();
 
 const queryParams = reactive<UserPageQuery>({
-  pageNum: 1,
+  pageIndex: 1,
   pageSize: 10,
 });
 
@@ -267,15 +269,20 @@ const dialog = reactive({
 });
 
 const formData = reactive<UserForm>({
-  status: 1,
+  status: true,
 });
 
 const rules = reactive({
-  username: [{ required: true, message: "用户名不能为空", trigger: "blur" }],
-  nickname: [{ required: true, message: "用户昵称不能为空", trigger: "blur" }],
+  account: [{ required: true, message: "用户名不能为空", trigger: "blur" }],
+  name: [{ required: true, message: "用户昵称不能为空", trigger: "blur" }],
   deptId: [{ required: true, message: "所属部门不能为空", trigger: "blur" }],
   roleIds: [{ required: true, message: "用户角色不能为空", trigger: "blur" }],
   email: [
+    {
+      required: true,
+      message: "邮箱不能为空",
+      trigger: "blur",
+    },
     {
       pattern: /\w[-\w.+]*@([A-Za-z0-9][-A-Za-z0-9]+\.)+[A-Za-z]{2,14}/,
       message: "请输入正确的邮箱地址",
@@ -316,7 +323,7 @@ function handleQuery() {
 // 重置查询
 function handleResetQuery() {
   queryFormRef.value.resetFields();
-  queryParams.pageNum = 1;
+  queryParams.pageIndex = 1;
   queryParams.deptId = undefined;
   queryParams.createTime = undefined;
   handleQuery();
@@ -329,7 +336,7 @@ function handleSelectionChange(selection: any[]) {
 
 // 重置密码
 function hancleResetPassword(row: UserPageVO) {
-  ElMessageBox.prompt("请输入用户【" + row.username + "】的新密码", "重置密码", {
+  ElMessageBox.prompt("请输入用户【" + row.account + "】的新密码", "重置密码", {
     confirmButtonText: "确定",
     cancelButtonText: "取消",
   }).then(
@@ -376,8 +383,8 @@ function handleCloseDialog() {
   userFormRef.value.resetFields();
   userFormRef.value.clearValidate();
 
-  formData.id = undefined;
-  formData.status = 1;
+  formData.id = 0;
+  formData.status = true;
 }
 
 // 提交用户表单（防抖）

@@ -1,6 +1,6 @@
 import request from "@/utils/request";
 
-const USER_BASE_URL = "/usr";
+const USER_BASE_URL = "/usr/users";
 
 const UserAPI = {
   /**
@@ -10,7 +10,7 @@ const UserAPI = {
    */
   getInfo() {
     return request<any, UserInfo>({
-      url: `${USER_BASE_URL}/users/userinfo`,
+      url: `${USER_BASE_URL}/userinfo`,
       method: "get",
     });
   },
@@ -36,7 +36,7 @@ const UserAPI = {
    */
   getFormData(userId: number) {
     return request<any, UserForm>({
-      url: `${USER_BASE_URL}/${userId}/form`,
+      url: `${USER_BASE_URL}/${userId}`,
       method: "get",
     });
   },
@@ -76,7 +76,7 @@ const UserAPI = {
    */
   resetPassword(id: number, password: string) {
     return request({
-      url: `${USER_BASE_URL}/${id}/password/reset`,
+      url: `${USER_BASE_URL}/${id}/password`,
       method: "put",
       params: { password: password },
     });
@@ -215,13 +215,13 @@ export default UserAPI;
 /** 登录用户信息 */
 export interface UserInfo {
   /** 用户ID */
-  userId?: number;
+  id?: number;
 
   /** 用户名 */
-  username?: string;
+  account?: string;
 
   /** 昵称 */
-  nickname?: string;
+  name?: string;
 
   /** 头像URL */
   avatar?: string;
@@ -241,7 +241,7 @@ export interface UserPageQuery extends PageQuery {
   keywords?: string;
 
   /** 用户状态 */
-  status?: number;
+  status?: boolean;
 
   /** 部门ID */
   deptId?: number;
@@ -267,13 +267,13 @@ export interface UserPageVO {
   /** 手机号 */
   mobile?: string;
   /** 用户昵称 */
-  nickname?: string;
+  name?: string;
   /** 角色名称，多个使用英文逗号(,)分割 */
   roleNames?: string;
   /** 用户状态(1:启用;0:禁用) */
-  status?: number;
+  status?: boolean;
   /** 用户名 */
-  username?: string;
+  account?: string;
 }
 
 /** 用户表单类型 */
@@ -291,13 +291,13 @@ export interface UserForm {
   /** 手机号 */
   mobile?: string;
   /** 昵称 */
-  nickname?: string;
+  name?: string;
   /** 角色ID集合 */
   roleIds?: number[];
   /** 用户状态(1:正常;0:禁用) */
-  status?: number;
+  status?: boolean;
   /** 用户名 */
-  username?: string;
+  account?: string;
 }
 
 /** 个人中心用户信息 */
@@ -306,10 +306,10 @@ export interface UserProfileVO {
   id?: number;
 
   /** 用户名 */
-  username?: string;
+  account?: string;
 
   /** 昵称 */
-  nickname?: string;
+  name?: string;
 
   /** 头像URL */
   avatar?: string;
@@ -339,10 +339,10 @@ export interface UserProfileForm {
   id?: number;
 
   /** 用户名 */
-  username?: string;
+  account?: string;
 
   /** 昵称 */
-  nickname?: string;
+  name?: string;
 
   /** 头像URL */
   avatar?: string;
