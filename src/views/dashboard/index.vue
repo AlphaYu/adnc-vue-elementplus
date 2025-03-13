@@ -26,15 +26,15 @@
                 仓库
               </div>
               <div class="mt-3">
-                <el-link href="https://gitee.com/youlaiorg/vue3-element-admin" target="_blank">
+                <el-link href="https://github.com/alphayu" target="_blank">
                   <div class="i-svg:gitee text-lg color-#F76560" />
                 </el-link>
                 <el-divider direction="vertical" />
-                <el-link href="https://github.com/youlaitech/vue3-element-admin" target="_blank">
+                <el-link href="https://github.com/alphayu" target="_blank">
                   <div class="i-svg:github text-lg color-#4080FF" />
                 </el-link>
                 <el-divider direction="vertical" />
-                <el-link href="https://gitcode.com/youlai/vue3-element-admin" target="_blank">
+                <el-link href="https://github.com/alphayu" target="_blank">
                   <div class="i-svg:gitcode text-lg color-#FF9A2E" />
                 </el-link>
               </div>
@@ -46,18 +46,15 @@
                 文档
               </div>
               <div class="mt-3">
-                <el-link href="https://juejin.cn/post/7228990409909108793" target="_blank">
+                <el-link href="https://aspdotnetcore.net" target="_blank">
                   <div class="i-svg:juejin text-lg" />
                 </el-link>
                 <el-divider direction="vertical" />
-                <el-link
-                  href="https://youlai.blog.csdn.net/article/details/130191394"
-                  target="_blank"
-                >
+                <el-link href="https://aspdotnetcore.net" target="_blank">
                   <div class="i-svg:csdn text-lg" />
                 </el-link>
                 <el-divider direction="vertical" />
-                <el-link href="https://www.cnblogs.com/haoxianrui/p/17331952.html" target="_blank">
+                <el-link href="https://aspdotnetcore.net" target="_blank">
                   <div class="i-svg:cnblogs text-lg" />
                 </el-link>
               </div>
@@ -69,7 +66,7 @@
                 视频
               </div>
               <div class="mt-3">
-                <el-link href="https://www.bilibili.com/video/BV1eFUuYyEFj" target="_blank">
+                <el-link href="https://aspdotnetcore.net" target="_blank">
                   <div class="i-svg:bilibili text-lg" />
                 </el-link>
               </div>
@@ -227,7 +224,7 @@
               <el-link
                 type="primary"
                 :underline="false"
-                href="https://gitee.com/youlaiorg/vue3-element-admin/releases"
+                href="https://github.com/alphayu"
                 target="_blank"
               >
                 完整记录
@@ -304,26 +301,26 @@ const userStore = useUserStore();
 const vesionList = ref<VersionItem[]>([
   {
     id: "1",
-    title: "v2.4.0",
-    date: "2021-09-01 00:00:00",
-    content: "实现基础框架搭建，包含权限管理、路由系统等核心功能。",
-    link: "https://gitee.com/youlaiorg/vue3-element-admin/releases",
+    title: "v1.0.0",
+    date: "2025-03-13 09:00:00",
+    content: ".NET版本升级到.NET8,前端升级到Vue3。",
+    link: "https://github.com/alphayu",
     tag: "里程碑",
   },
   {
-    id: "1",
-    title: "v2.4.0",
-    date: "2021-09-01 00:00:00",
-    content: "实现基础框架搭建，包含权限管理、路由系统等核心功能。",
-    link: "https://gitee.com/youlaiorg/vue3-element-admin/releases",
+    id: "2",
+    title: "v1.0.0",
+    date: "2025-03-13 09:00:00",
+    content: ".NET版本升级到.NET8,前端升级到Vue3。",
+    link: "https://github.com/alphayu",
     tag: "里程碑",
   },
   {
-    id: "1",
-    title: "v2.4.0",
-    date: "2021-09-01 00:00:00",
-    content: "实现基础框架搭建，包含权限管理、路由系统等核心功能。",
-    link: "https://gitee.com/youlaiorg/vue3-element-admin/releases",
+    id: "3",
+    title: "v1.0.0",
+    date: "2025-03-13 09:00:00",
+    content: ".NET版本升级到.NET8,前端升级到Vue3。",
+    link: "https://github.com/alphayu",
     tag: "里程碑",
   },
 ]);
@@ -334,7 +331,7 @@ const currentDate = new Date();
 // 问候语：根据当前小时返回不同问候语
 const greetings = computed(() => {
   const hours = currentDate.getHours();
-  const nickname = userStore.userInfo.nickname;
+  const nickname = userStore.userInfo.name;
   if (hours >= 6 && hours < 8) {
     return "晨起披衣出草堂，轩窗已自喜微凉🌅！";
   } else if (hours >= 8 && hours < 12) {
@@ -369,6 +366,16 @@ const visitTrendChartOptions = ref();
  * 获取访客统计数据
  */
 const fetchVisitStatsData = () => {
+  visitStatsData.value = {
+    todayUvCount: 227,
+    totalUvCount: 6976,
+    uvGrowthRate: 10.95,
+    todayPvCount: 1905,
+    totalPvCount: 106020,
+    pvGrowthRate: 17.14,
+  };
+  visitStatsLoading.value = false;
+  /*
   LogAPI.getVisitStats()
     .then((data) => {
       visitStatsData.value = data;
@@ -376,12 +383,29 @@ const fetchVisitStatsData = () => {
     .finally(() => {
       visitStatsLoading.value = false;
     });
+    */
 };
 
 /**
  * 获取访问趋势数据，并更新图表配置
  */
 const fetchVisitTrendData = () => {
+  const data: VisitTrendVO = {
+    dates: [
+      "2025-03-07",
+      "2025-03-08",
+      "2025-03-09",
+      "2025-03-10",
+      "2025-03-11",
+      "2025-03-12",
+      "2025-03-13",
+    ],
+    pvList: [4463, 2723, 1956, 5700, 4551, 6230, 1905],
+    ipList: [486, 241, 177, 554, 468, 536, 227],
+    uvList: [],
+  };
+  updateVisitTrendChartOptions(data);
+  /*
   const startDate = dayjs()
     .subtract(visitTrendDateRange.value - 1, "day")
     .toDate();
@@ -393,6 +417,7 @@ const fetchVisitTrendData = () => {
   }).then((data) => {
     updateVisitTrendChartOptions(data);
   });
+  */
 };
 
 /**

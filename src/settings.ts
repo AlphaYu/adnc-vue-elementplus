@@ -10,7 +10,7 @@ const mediaQueryList = window.matchMedia("(prefers-color-scheme: dark)");
 
 const defaultSettings: AppSettings = {
   // 系统Title
-  title: pkg.name,
+  title: "adnc-vue-elementplus",
   // 系统版本
   version: pkg.version,
   // 是否显示设置
@@ -34,7 +34,7 @@ const defaultSettings: AppSettings = {
   // 水印内容
   watermarkContent: pkg.name,
   // 侧边栏配色方案
-  sidebarColorScheme: SidebarColorEnum.CLASSIC_BLUE,
+  sidebarColorScheme: SidebarColorEnum.MINIMAL_WHITE,
 };
 
 export default defaultSettings;

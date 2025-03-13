@@ -1,6 +1,6 @@
 import request from "@/utils/request";
 
-const DEPT_BASE_URL = "/usr/organizations";
+const DEPT_BASE_URL = "/admin/organizations";
 
 const DeptAPI = {
   /**

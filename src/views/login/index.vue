@@ -19,6 +19,7 @@
       <el-form ref="loginFormRef" :model="loginFormData" :rules="loginRules">
         <div class="form-title">
           <h2>{{ defaultSettings.title }}</h2>
+          <!--
           <el-dropdown style="position: absolute; right: 0">
             <div class="cursor-pointer">
               <el-icon>
@@ -42,7 +43,7 @@
               </el-dropdown-menu>
             </template>
           </el-dropdown>
-        </div>
+        --></div>
 
         <!-- 用户名 -->
         <el-form-item prop="username">
@@ -106,7 +107,7 @@
             {{ $t("login.rememberMe") }}
           </el-checkbox>
 
-          <el-link type="primary" href="/forget-password">
+          <el-link v-show="false" type="primary" href="/forget-password">
             {{ $t("login.forgetPassword") }}
           </el-link>
         </div>
@@ -137,10 +138,7 @@
 
     <!-- 登录页底部 -->
     <div class="login-footer">
-      <el-text size="small">
-        Copyright © 2021 - 2025 ADNC All Rights Reserved.
-        <a href="http://beian.miit.gov.cn/" target="_blank">皖ICP备20006496号-2</a>
-      </el-text>
+      <el-text size="small">Copyright © 2021 - 2025 ADNC All Rights Reserved.</el-text>
     </div>
   </div>
 </template>

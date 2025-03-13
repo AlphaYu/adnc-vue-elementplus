@@ -35,11 +35,11 @@
       >
         <el-table-column type="selection" width="55" align="center" />
         <el-table-column label="字典名称" prop="name" />
-        <el-table-column label="字典编码" prop="dictCode" />
+        <el-table-column label="字典编码" prop="code" />
         <el-table-column label="状态" prop="status">
           <template #default="scope">
-            <el-tag :type="scope.row.status === 1 ? 'success' : 'info'">
-              {{ scope.row.status === 1 ? "启用" : "禁用" }}
+            <el-tag :type="scope.row.status === true ? 'success' : 'info'">
+              {{ scope.row.status === true ? "启用" : "禁用" }}
             </el-tag>
           </template>
         </el-table-column>
@@ -77,7 +77,7 @@
       <pagination
         v-if="total > 0"
         v-model:total="total"
-        v-model:page="queryParams.pageNum"
+        v-model:page="queryParams.pageIndex"
         v-model:limit="queryParams.pageSize"
         @pagination="handleQuery"
       />
@@ -96,14 +96,14 @@
             <el-input v-model="formData.name" placeholder="请输入字典名称" />
           </el-form-item>
 
-          <el-form-item label="字典编码" prop="dictCode">
-            <el-input v-model="formData.dictCode" placeholder="请输入字典编码" />
+          <el-form-item label="字典编码" prop="code">
+            <el-input v-model="formData.code" placeholder="请输入字典编码" />
           </el-form-item>
 
           <el-form-item label="状态">
             <el-radio-group v-model="formData.status">
-              <el-radio :value="1">启用</el-radio>
-              <el-radio :value="0">禁用</el-radio>
+              <el-radio :value="true">启用</el-radio>
+              <el-radio :value="false">禁用</el-radio>
             </el-radio-group>
           </el-form-item>
 
@@ -141,7 +141,7 @@ const ids = ref<number[]>([]);
 const total = ref(0);
 
 const queryParams = reactive<DictPageQuery>({
-  pageNum: 1,
+  pageIndex: 1,
   pageSize: 10,
 });
 
@@ -157,7 +157,7 @@ const formData = reactive<DictForm>({});
 const computedRules = computed(() => {
   const rules: Partial<Record<string, any>> = {
     name: [{ required: true, message: "请输入字典名称", trigger: "blur" }],
-    dictCode: [{ required: true, message: "请输入字典编码", trigger: "blur" }],
+    code: [{ required: true, message: "请输入字典编码", trigger: "blur" }],
   };
   return rules;
 });
@@ -178,7 +178,7 @@ function handleQuery() {
 // 重置查询
 function handleResetQuery() {
   queryFormRef.value.resetFields();
-  queryParams.pageNum = 1;
+  queryParams.pageIndex = 1;
   handleQuery();
 }
 
@@ -274,12 +274,12 @@ function handleDelete(id?: number) {
 function handleOpenDictData(row: DictPageVO) {
   router.push({
     path: "/system/dict-data",
-    query: { dictCode: row.dictCode, title: "【" + row.name + "】字典数据" },
+    query: { dictCode: row.code, title: "【" + row.name + "】字典数据" },
   });
 
   /*  router.push({
     name: "DictData",
-    params: { dictCode: row.dictCode, title: "【" + row.name + "】字典数据" },
+    params: { code: row.code, title: "【" + row.name + "】字典数据" },
   }); */
 }
 

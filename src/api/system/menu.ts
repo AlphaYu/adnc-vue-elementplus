@@ -1,6 +1,6 @@
 import request from "@/utils/request";
 // 菜单基础URL
-const MENU_BASE_URL = "/usr";
+const MENU_BASE_URL = "/admin/menus";
 
 const MenuAPI = {
   /**
@@ -12,7 +12,7 @@ const MenuAPI = {
    */
   getRoutes() {
     return request<any, RouteVO[]>({
-      url: `${MENU_BASE_URL}/menus/routers`,
+      url: `${MENU_BASE_URL}/routers`,
       method: "get",
     });
   },
@@ -25,7 +25,7 @@ const MenuAPI = {
    */
   getList(queryParams: MenuQuery) {
     return request<any, MenuVO[]>({
-      url: `${MENU_BASE_URL}/menus`,
+      url: `${MENU_BASE_URL}`,
       method: "get",
       params: queryParams,
     });
@@ -38,7 +38,7 @@ const MenuAPI = {
    */
   getOptions(onlyParent?: boolean) {
     return request<any, OptionType[]>({
-      url: `${MENU_BASE_URL}/menus/options`,
+      url: `${MENU_BASE_URL}/options`,
       method: "get",
       params: { onlyParent: onlyParent },
     });
@@ -51,7 +51,7 @@ const MenuAPI = {
    */
   getFormData(id: number) {
     return request<any, MenuForm>({
-      url: `${MENU_BASE_URL}/menus/${id}`,
+      url: `${MENU_BASE_URL}/${id}`,
       method: "get",
     });
   },
@@ -64,7 +64,7 @@ const MenuAPI = {
    */
   add(data: MenuForm) {
     return request({
-      url: `${MENU_BASE_URL}/menus`,
+      url: `${MENU_BASE_URL}`,
       method: "post",
       data: data,
     });
@@ -79,7 +79,7 @@ const MenuAPI = {
    */
   update(id: number, data: MenuForm) {
     return request({
-      url: `${MENU_BASE_URL}/menus/${id}`,
+      url: `${MENU_BASE_URL}/${id}`,
       method: "put",
       data: data,
     });
@@ -93,7 +93,7 @@ const MenuAPI = {
    */
   deleteById(id: number) {
     return request({
-      url: `${MENU_BASE_URL}/menus/${id}`,
+      url: `${MENU_BASE_URL}/${id}`,
       method: "delete",
     });
   },

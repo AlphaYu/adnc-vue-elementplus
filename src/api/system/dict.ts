@@ -1,6 +1,6 @@
 import request from "@/utils/request";
 
-const DICT_BASE_URL = "/api/v1/dict";
+const DICT_BASE_URL = "/admin/dicts";
 
 const DictAPI = {
   /**
@@ -25,7 +25,7 @@ const DictAPI = {
    */
   getFormData(id: number) {
     return request<any, ResponseData<DictForm>>({
-      url: `${DICT_BASE_URL}/${id}/form`,
+      url: `${DICT_BASE_URL}/${id}`,
       method: "get",
     });
   },
@@ -76,7 +76,7 @@ const DictAPI = {
    */
   getList() {
     return request<any, DictVO[]>({
-      url: `${DICT_BASE_URL}/list`,
+      url: `${DICT_BASE_URL}/page`,
       method: "get",
     });
   },
@@ -114,7 +114,7 @@ export interface DictPageVO {
   /**
    * 字典编码
    */
-  dictCode: string;
+  code: string;
   /**
    * 字典状态（1:启用，0:禁用）
    */
@@ -136,7 +136,7 @@ export interface DictForm {
   /**
    * 字典编码
    */
-  dictCode?: string;
+  code?: string;
   /**
    * 字典状态（1-启用，0-禁用）
    */
@@ -157,7 +157,7 @@ export interface DictVO {
   name: string;
 
   /** 字典编码 */
-  dictCode: string;
+  code: string;
 
   /** 字典数据集合 */
   dictDataList: DictData[];

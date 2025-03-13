@@ -1,6 +1,6 @@
 import request from "@/utils/request";
 
-const LOG_BASE_URL = "/api/v1/logs";
+const LOG_BASE_URL = "/usr/logs";
 
 const LogAPI = {
   /**
@@ -24,7 +24,7 @@ const LogAPI = {
    */
   getVisitTrend(queryParams: VisitTrendQuery) {
     return request<any, VisitTrendVO>({
-      url: `${LOG_BASE_URL}/visit-trend`,
+      url: `${LOG_BASE_URL}/visittrend`,
       method: "get",
       params: queryParams,
     });
@@ -38,7 +38,7 @@ const LogAPI = {
    */
   getVisitStats() {
     return request<any, VisitStatsVO>({
-      url: `${LOG_BASE_URL}/visit-stats`,
+      url: `${LOG_BASE_URL}/visitstats`,
       method: "get",
     });
   },

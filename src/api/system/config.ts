@@ -1,6 +1,6 @@
 import request from "@/utils/request";
 
-const CONFIG_BASE_URL = "/api/v1/config";
+const CONFIG_BASE_URL = "/admin/sysconfigs";
 
 const ConfigAPI = {
   /** 获取系统配置分页数据 */
@@ -19,7 +19,7 @@ const ConfigAPI = {
    */
   getFormData(id: number) {
     return request<any, ConfigForm>({
-      url: `${CONFIG_BASE_URL}/${id}/form`,
+      url: `${CONFIG_BASE_URL}/${id}`,
       method: "get",
     });
   },
@@ -80,11 +80,11 @@ export interface ConfigForm {
   /** 主键 */
   id?: number;
   /** 配置名称 */
-  configName?: string;
+  Name?: string;
   /** 配置键 */
-  configKey?: string;
+  Key?: string;
   /** 配置值 */
-  configValue?: string;
+  Value?: string;
   /** 描述、备注 */
   remark?: string;
 }
@@ -94,11 +94,11 @@ export interface ConfigPageVO {
   /** 主键 */
   id?: number;
   /** 配置名称 */
-  configName?: string;
+  Name?: string;
   /** 配置键 */
-  configKey?: string;
+  Key?: string;
   /** 配置值 */
-  configValue?: string;
+  Value?: string;
   /** 描述、备注 */
   remark?: string;
 }

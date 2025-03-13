@@ -1,6 +1,6 @@
 import request from "@/utils/request";
 
-const DICT_DATA_BASE_URL = "/api/v1/dict-data";
+const DICT_DATA_BASE_URL = "/admin/dictdatas";
 
 const DictDataAPI = {
   /**
@@ -25,7 +25,7 @@ const DictDataAPI = {
    */
   getFormData(id: number) {
     return request<any, ResponseData<DictDataForm>>({
-      url: `${DICT_DATA_BASE_URL}/${id}/form`,
+      url: `${DICT_DATA_BASE_URL}/${id}`,
       method: "get",
     });
   },
@@ -119,11 +119,11 @@ export interface DictDataPageVO {
   /**
    * 状态（1:启用，0:禁用)
    */
-  status: number;
+  status: boolean;
   /**
    * 字典排序
    */
-  sort?: number;
+  ordinal?: number;
 }
 
 /**
@@ -149,11 +149,11 @@ export interface DictDataForm {
   /**
    * 状态（1:启用，0:禁用)
    */
-  status?: number;
+  status?: boolean;
   /**
    * 字典排序
    */
-  sort?: number;
+  ordinal?: number;
 
   /**
    * 标签类型

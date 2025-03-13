@@ -46,9 +46,9 @@
         @selection-change="handleSelectionChange"
       >
         <el-table-column type="index" label="序号" width="60" />
-        <el-table-column key="configName" label="配置名称" prop="configName" min-width="100" />
-        <el-table-column key="configKey" label="配置键" prop="configKey" min-width="100" />
-        <el-table-column key="configValue" label="配置值" prop="configValue" min-width="100" />
+        <el-table-column key="Name" label="配置名称" prop="Name" min-width="100" />
+        <el-table-column key="Key" label="配置键" prop="Key" min-width="100" />
+        <el-table-column key="Value" label="配置值" prop="Value" min-width="100" />
         <el-table-column key="remark" label="描述" prop="remark" min-width="100" />
         <el-table-column fixed="right" label="操作" width="220">
           <template #default="scope">
@@ -79,7 +79,7 @@
       <pagination
         v-if="total > 0"
         v-model:total="total"
-        v-model:page="queryParams.pageNum"
+        v-model:page="queryParams.pageIndex"
         v-model:limit="queryParams.pageSize"
         @pagination="handleQuery"
       />
@@ -99,14 +99,14 @@
         label-suffix=":"
         label-width="100px"
       >
-        <el-form-item label="配置名称" prop="configName">
-          <el-input v-model="formData.configName" placeholder="请输入配置名称" :maxlength="50" />
+        <el-form-item label="配置名称" prop="Name">
+          <el-input v-model="formData.Name" placeholder="请输入配置名称" :maxlength="50" />
         </el-form-item>
-        <el-form-item label="配置键" prop="configKey">
-          <el-input v-model="formData.configKey" placeholder="请输入配置键" :maxlength="50" />
+        <el-form-item label="配置键" prop="Key">
+          <el-input v-model="formData.Key" placeholder="请输入配置键" :maxlength="50" />
         </el-form-item>
-        <el-form-item label="配置值" prop="configValue">
-          <el-input v-model="formData.configValue" placeholder="请输入配置值" :maxlength="100" />
+        <el-form-item label="配置值" prop="Value">
+          <el-input v-model="formData.Value" placeholder="请输入配置值" :maxlength="100" />
         </el-form-item>
         <el-form-item label="描述" prop="remark">
           <el-input
@@ -145,7 +145,7 @@ const selectIds = ref<number[]>([]);
 const total = ref(0);
 
 const queryParams = reactive<ConfigPageQuery>({
-  pageNum: 1,
+  pageIndex: 1,
   pageSize: 10,
   keywords: "",
 });
@@ -160,16 +160,16 @@ const dialog = reactive({
 
 const formData = reactive<ConfigForm>({
   id: undefined,
-  configName: "",
-  configKey: "",
-  configValue: "",
+  Name: "",
+  Key: "",
+  Value: "",
   remark: "",
 });
 
 const rules = reactive({
-  configName: [{ required: true, message: "请输入系统配置名称", trigger: "blur" }],
-  configKey: [{ required: true, message: "请输入系统配置编码", trigger: "blur" }],
-  configValue: [{ required: true, message: "请输入系统配置值", trigger: "blur" }],
+  Name: [{ required: true, message: "请输入系统配置名称", trigger: "blur" }],
+  Key: [{ required: true, message: "请输入系统配置编码", trigger: "blur" }],
+  Value: [{ required: true, message: "请输入系统配置值", trigger: "blur" }],
 });
 
 // 查询系统配置
@@ -188,7 +188,7 @@ function handleQuery() {
 // 重置查询
 function handleResetQuery() {
   queryFormRef.value.resetFields();
-  queryParams.pageNum = 1;
+  queryParams.pageIndex = 1;
   handleQuery();
 }
 

@@ -36,11 +36,11 @@
         <el-table-column type="selection" width="55" align="center" />
         <el-table-column label="字典标签" prop="label" />
         <el-table-column label="字典值" prop="value" />
-        <el-table-column label="排序" prop="sort" />
+        <el-table-column label="排序" prop="ordinal" />
         <el-table-column label="状态">
           <template #default="scope">
-            <el-tag :type="scope.row.status === 1 ? 'success' : 'info'">
-              {{ scope.row.status === 1 ? "启用" : "禁用" }}
+            <el-tag :type="scope.row.status === true ? 'success' : 'info'">
+              {{ scope.row.status === true ? "启用" : "禁用" }}
             </el-tag>
           </template>
         </el-table-column>
@@ -72,7 +72,7 @@
       <pagination
         v-if="total > 0"
         v-model:total="total"
-        v-model:page="queryParams.pageNum"
+        v-model:page="queryParams.pageIndex"
         v-model:limit="queryParams.pageSize"
         @pagination="handleQuery"
       />
@@ -95,12 +95,12 @@
           </el-form-item>
           <el-form-item label="状态">
             <el-radio-group v-model="formData.status">
-              <el-radio :value="1">启用</el-radio>
-              <el-radio :value="0">禁用</el-radio>
+              <el-radio :value="true">启用</el-radio>
+              <el-radio :value="false">禁用</el-radio>
             </el-radio-group>
           </el-form-item>
           <el-form-item label="排序">
-            <el-input-number v-model="formData.sort" controls-position="right" />
+            <el-input-number v-model="formData.ordinal" controls-position="right" />
           </el-form-item>
           <el-form-item label="标签类型">
             <el-tag v-if="formData.tagType" :type="formData.tagType" class="mr-2">
@@ -152,7 +152,7 @@ const ids = ref<number[]>([]);
 const total = ref(0);
 
 const queryParams = reactive<DictDataPageQuery>({
-  pageNum: 1,
+  pageIndex: 1,
   pageSize: 10,
   dictCode: dictCode.value,
 });
@@ -190,7 +190,7 @@ function handleQuery() {
 // 重置查询
 function handleResetQuery() {
   queryFormRef.value.resetFields();
-  queryParams.pageNum = 1;
+  queryParams.pageIndex = 1;
   handleQuery();
 }
 
@@ -247,8 +247,8 @@ function handleCloseDialog() {
   dataFormRef.value.clearValidate();
 
   formData.id = undefined;
-  formData.sort = 1;
-  formData.status = 1;
+  formData.ordinal = 1;
+  formData.status = true;
 }
 /**
  * 删除字典
