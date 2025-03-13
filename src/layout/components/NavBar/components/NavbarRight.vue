@@ -22,7 +22,7 @@
     <el-dropdown trigger="click">
       <div class="user-profile">
         <img class="user-profile__avatar" :src="userStore.userInfo.avatar" />
-        <span class="user-profile__name">{{ userStore.userInfo.username }}</span>
+        <span class="user-profile__name">{{ userStore.userInfo.name }}</span>
       </div>
       <template #dropdown>
         <el-dropdown-menu>

@@ -19,7 +19,7 @@
               <input ref="fileInput" type="file" style="display: none" @change="handleFileChange" />
             </div>
             <div class="mt-5">
-              {{ userProfile.nickname }}
+              {{ userProfile.name }}
               <el-icon
                 class="align-middle cursor-pointer"
                 @click="handleOpenDialog(DialogType.ACCOUNT)"
@@ -35,7 +35,7 @@
                   <el-icon class="align-middle"><User /></el-icon>
                   用户名
                 </template>
-                {{ userProfile.username }}
+                {{ userProfile.name }}
                 <el-icon v-if="userProfile.gender === 1" class="align-middle color-blue">
                   <Male />
                 </el-icon>
@@ -175,10 +175,15 @@
         :label-width="100"
       >
         <el-form-item label="昵称">
-          <el-input v-model="userProfileForm.nickname" />
+          <el-input v-model="userProfileForm.name" />
         </el-form-item>
-        <el-form-item label="性别">
-          <Dict v-model="userProfileForm.gender" code="gender" />
+
+        <el-form-item label="性别" prop="gender">
+          <el-select v-model="userProfileForm.gender">
+            <el-option :key="0" label="保密" :value="0" />
+            <el-option :key="1" label="男" :value="1" />
+            <el-option :key="2" label="女" :value="2" />
+          </el-select>
         </el-form-item>
       </el-form>
 
@@ -254,13 +259,13 @@
 </template>
 
 <script lang="ts" setup>
-import UserAPI, {
+import AuthAPI, {
   UserProfileVO,
   PasswordChangeForm,
   MobileUpdateForm,
   EmailUpdateForm,
   UserProfileForm,
-} from "@/api/system/user";
+} from "@/api/auth";
 
 import FileAPI from "@/api/file";
 
@@ -337,7 +342,7 @@ const handleOpenDialog = (type: DialogType) => {
       dialog.title = "账号资料";
       // 初始化表单数据
       userProfileForm.id = userProfile.value.id;
-      userProfileForm.nickname = userProfile.value.nickname;
+      userProfileForm.name = userProfile.value.name;
       userProfileForm.gender = userProfile.value.gender;
       break;
     case DialogType.PASSWORD:
@@ -367,7 +372,7 @@ function handleSendMobileCode() {
     return;
   }
   // 发送短信验证码
-  UserAPI.sendMobileCode(mobileUpdateForm.mobile).then(() => {
+  AuthAPI.sendMobileCode(mobileUpdateForm.mobile).then(() => {
     ElMessage.success("验证码发送成功");
 
     // 倒计时 60s 重新发送
@@ -398,7 +403,7 @@ function handleSendEmailCode() {
   }
 
   // 发送邮箱验证码
-  UserAPI.sendEmailCode(emailUpdateForm.email).then(() => {
+  AuthAPI.sendEmailCode(emailUpdateForm.email).then(() => {
     ElMessage.success("验证码发送成功");
     // 倒计时 60s 重新发送
     emailCountdown.value = 60;
@@ -417,7 +422,7 @@ function handleSendEmailCode() {
  */
 const handleSubmit = async () => {
   if (dialog.type === DialogType.ACCOUNT) {
-    UserAPI.updateProfile(userProfileForm).then(() => {
+    AuthAPI.updateProfile(userProfileForm).then(() => {
       ElMessage.success("账号资料修改成功");
       dialog.visible = false;
       loadUserProfile();
@@ -427,18 +432,18 @@ const handleSubmit = async () => {
       ElMessage.error("两次输入的密码不一致");
       return;
     }
-    UserAPI.changePassword(passwordChangeForm).then(() => {
+    AuthAPI.changePassword(passwordChangeForm).then(() => {
       ElMessage.success("密码修改成功");
       dialog.visible = false;
     });
   } else if (dialog.type === DialogType.MOBILE) {
-    UserAPI.bindOrChangeMobile(mobileUpdateForm).then(() => {
+    AuthAPI.bindOrChangeMobile(mobileUpdateForm).then(() => {
       ElMessage.success("手机号绑定成功");
       dialog.visible = false;
       loadUserProfile();
     });
   } else if (dialog.type === DialogType.EMAIL) {
-    UserAPI.bindOrChangeEmail(emailUpdateForm).then(() => {
+    AuthAPI.bindOrChangeEmail(emailUpdateForm).then(() => {
       ElMessage.success("邮箱绑定成功");
       dialog.visible = false;
       loadUserProfile();
@@ -462,7 +467,7 @@ const handleFileChange = async (event: Event) => {
       // 更新用户头像
       userProfile.value.avatar = data.url;
       // 更新用户信息
-      await UserAPI.updateProfile({
+      await AuthAPI.updateProfile({
         avatar: data.url,
       });
     } catch (error) {
@@ -474,7 +479,7 @@ const handleFileChange = async (event: Event) => {
 
 /** 加载用户信息 */
 const loadUserProfile = async () => {
-  const data = await UserAPI.getProfile();
+  const data = await AuthAPI.getProfile();
   userProfile.value = data;
 };
 

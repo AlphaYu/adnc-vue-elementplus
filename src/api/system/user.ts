@@ -16,6 +16,20 @@ const UserAPI = {
   },
 
   /**
+   * 重置密码
+   *
+   * @param id 用户ID
+   * @param password 新密码
+   */
+  resetPassword(id: number, password: string) {
+    return request({
+      url: `${USER_BASE_URL}/${id}/password`,
+      method: "put",
+      params: { password: password },
+    });
+  },
+
+  /**
    * 获取用户分页列表
    *
    * @param queryParams 查询参数
@@ -65,20 +79,6 @@ const UserAPI = {
       url: `${USER_BASE_URL}/${id}`,
       method: "put",
       data: data,
-    });
-  },
-
-  /**
-   * 修改用户密码
-   *
-   * @param id 用户ID
-   * @param password 新密码
-   */
-  resetPassword(id: number, password: string) {
-    return request({
-      url: `${USER_BASE_URL}/${id}/password`,
-      method: "put",
-      params: { password: password },
     });
   },
 
@@ -134,68 +134,6 @@ const UserAPI = {
       headers: {
         "Content-Type": "multipart/form-data",
       },
-    });
-  },
-
-  /** 获取个人中心用户信息 */
-  getProfile() {
-    return request<any, UserProfileVO>({
-      url: `${USER_BASE_URL}/profile`,
-      method: "get",
-    });
-  },
-
-  /** 修改个人中心用户信息 */
-  updateProfile(data: UserProfileForm) {
-    return request({
-      url: `${USER_BASE_URL}/profile`,
-      method: "put",
-      data: data,
-    });
-  },
-
-  /** 修改个人中心用户密码 */
-  changePassword(data: PasswordChangeForm) {
-    return request({
-      url: `${USER_BASE_URL}/password`,
-      method: "put",
-      data: data,
-    });
-  },
-
-  /** 发送短信验证码（绑定或更换手机号）*/
-  sendMobileCode(mobile: string) {
-    return request({
-      url: `${USER_BASE_URL}/mobile/code`,
-      method: "post",
-      params: { mobile: mobile },
-    });
-  },
-
-  /** 绑定或更换手机号 */
-  bindOrChangeMobile(data: MobileUpdateForm) {
-    return request({
-      url: `${USER_BASE_URL}/mobile`,
-      method: "put",
-      data: data,
-    });
-  },
-
-  /** 发送邮箱验证码（绑定或更换邮箱）*/
-  sendEmailCode(email: string) {
-    return request({
-      url: `${USER_BASE_URL}/email/code`,
-      method: "post",
-      params: { email: email },
-    });
-  },
-
-  /** 绑定或更换邮箱 */
-  bindOrChangeEmail(data: EmailUpdateForm) {
-    return request({
-      url: `${USER_BASE_URL}/email`,
-      method: "put",
-      data: data,
     });
   },
 
@@ -298,87 +236,4 @@ export interface UserForm {
   status?: boolean;
   /** 用户名 */
   account?: string;
-}
-
-/** 个人中心用户信息 */
-export interface UserProfileVO {
-  /** 用户ID */
-  id?: number;
-
-  /** 用户名 */
-  account?: string;
-
-  /** 昵称 */
-  name?: string;
-
-  /** 头像URL */
-  avatar?: string;
-
-  /** 性别 */
-  gender?: number;
-
-  /** 手机号 */
-  mobile?: string;
-
-  /** 邮箱 */
-  email?: string;
-
-  /** 部门名称 */
-  deptName?: string;
-
-  /** 角色名称，多个使用英文逗号(,)分割 */
-  roleNames?: string;
-
-  /** 创建时间 */
-  createTime?: Date;
-}
-
-/** 个人中心用户信息表单 */
-export interface UserProfileForm {
-  /** 用户ID */
-  id?: number;
-
-  /** 用户名 */
-  account?: string;
-
-  /** 昵称 */
-  name?: string;
-
-  /** 头像URL */
-  avatar?: string;
-
-  /** 性别 */
-  gender?: number;
-
-  /** 手机号 */
-  mobile?: string;
-
-  /** 邮箱 */
-  email?: string;
-}
-
-/** 修改密码表单 */
-export interface PasswordChangeForm {
-  /** 原密码 */
-  oldPassword?: string;
-  /** 新密码 */
-  newPassword?: string;
-  /** 确认新密码 */
-  confirmPassword?: string;
-}
-
-/** 修改手机表单 */
-export interface MobileUpdateForm {
-  /** 手机号 */
-  mobile?: string;
-  /** 验证码 */
-  code?: string;
-}
-
-/** 修改邮箱表单 */
-export interface EmailUpdateForm {
-  /** 邮箱 */
-  email?: string;
-  /** 验证码 */
-  code?: string;
 }
