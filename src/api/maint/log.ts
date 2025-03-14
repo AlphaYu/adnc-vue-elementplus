@@ -1,16 +1,29 @@
 import request from "@/utils/request";
 
-const LOG_BASE_URL = "/usr/logs";
+const LOG_BASE_URL = "/maint/operationlogs";
+const LOGIN_LOG_BASE_URL = "/maint/loginlogs";
 
 const LogAPI = {
   /**
-   * 获取日志分页列表
+   * 获取操作日志分页列表
    *
    * @param queryParams 查询参数
    */
-  getPage(queryParams: LogPageQuery) {
+  getOperationLogPage(queryParams: LogPageQuery) {
     return request<any, PageResult<LogPageVO[]>>({
       url: `${LOG_BASE_URL}/page`,
+      method: "get",
+      params: queryParams,
+    });
+  },
+  /**
+   * 获取登录日志分页列表
+   *
+   * @param queryParams 查询参数
+   */
+  getLoginLogPage(queryParams: LogPageQuery) {
+    return request<any, PageResult<LoginLogPageVO[]>>({
+      url: `${LOGIN_LOG_BASE_URL}/page`,
       method: "get",
       params: queryParams,
     });
@@ -57,31 +70,59 @@ export interface LogPageQuery extends PageQuery {
 }
 
 /**
- * 系统日志分页VO
+ * 操作日志分页VO
  */
 export interface LogPageVO {
   /** 主键 */
   id: number;
   /** 日志模块 */
-  module: string;
+  logname: string;
   /** 日志内容 */
-  content: string;
-  /** 请求路径 */
-  requestUri: string;
+  message: string;
+  /** 操作类名 */
+  className: string;
   /** 请求方法 */
   method: string;
   /** IP 地址 */
-  ip: string;
-  /** 地区 */
-  region: string;
-  /** 浏览器 */
-  browser: string;
-  /** 终端系统 */
-  os: string;
+  remoteIpAddress: string;
   /** 执行时间(毫秒) */
   executionTime: number;
+  /** 操作人账号 */
+  account: string;
   /** 操作人 */
-  operator: string;
+  name: string;
+  /** 是否成功 */
+  succeed: boolean;
+  /** 创建时间 */
+  createTime: string;
+}
+
+/**
+ * 登录日志分页VO
+ */
+export interface LoginLogPageVO {
+  /** 主键 */
+  id: number;
+  /** 登录设备 */
+  device: string;
+  /** 日志内容 */
+  message: string;
+  /** 状态码 */
+  statusCode: number;
+  /** 用户id */
+  userId: number;
+  /** IP 地址 */
+  remoteIpAddress: string;
+  /** 执行时间(毫秒) */
+  executionTime: number;
+  /** 操作人账号 */
+  account: string;
+  /** 操作人 */
+  name: string;
+  /** 是否成功 */
+  succeed: boolean;
+  /** 创建时间 */
+  createTime: string;
 }
 
 /**  访问趋势视图对象 */

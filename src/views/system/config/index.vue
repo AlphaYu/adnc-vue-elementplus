@@ -21,7 +21,7 @@
     <el-card shadow="never">
       <div class="mb-10px">
         <el-button
-          v-hasPerm="['sys:config:add']"
+          v-hasPerm="['sysconfig-create']"
           type="success"
           icon="plus"
           @click="handleOpenDialog()"
@@ -29,7 +29,7 @@
           新增
         </el-button>
         <el-button
-          v-hasPerm="['sys:config:refresh']"
+          v-hasPerm="['sysconfig-refresh']"
           color="#626aef"
           icon="RefreshLeft"
           @click="handleRefreshCache"
@@ -46,14 +46,14 @@
         @selection-change="handleSelectionChange"
       >
         <el-table-column type="index" label="序号" width="60" />
-        <el-table-column key="Name" label="配置名称" prop="Name" min-width="100" />
-        <el-table-column key="Key" label="配置键" prop="Key" min-width="100" />
-        <el-table-column key="Value" label="配置值" prop="Value" min-width="100" />
+        <el-table-column key="name" label="配置名称" prop="name" min-width="100" />
+        <el-table-column key="key" label="配置键" prop="key" min-width="100" />
+        <el-table-column key="value" label="配置值" prop="value" min-width="100" />
         <el-table-column key="remark" label="描述" prop="remark" min-width="100" />
         <el-table-column fixed="right" label="操作" width="220">
           <template #default="scope">
             <el-button
-              v-hasPerm="['sys:config:update']"
+              v-hasPerm="['sysconfig-update']"
               type="primary"
               size="small"
               link
@@ -63,7 +63,7 @@
               编辑
             </el-button>
             <el-button
-              v-hasPerm="['sys:config:delete']"
+              v-hasPerm="['sysconfig-delete']"
               type="danger"
               size="small"
               link
@@ -99,14 +99,14 @@
         label-suffix=":"
         label-width="100px"
       >
-        <el-form-item label="配置名称" prop="Name">
-          <el-input v-model="formData.Name" placeholder="请输入配置名称" :maxlength="50" />
+        <el-form-item label="配置名称" prop="name">
+          <el-input v-model="formData.name" placeholder="请输入配置名称" :maxlength="50" />
         </el-form-item>
-        <el-form-item label="配置键" prop="Key">
-          <el-input v-model="formData.Key" placeholder="请输入配置键" :maxlength="50" />
+        <el-form-item label="配置键" prop="key">
+          <el-input v-model="formData.key" placeholder="请输入配置键" :maxlength="50" />
         </el-form-item>
-        <el-form-item label="配置值" prop="Value">
-          <el-input v-model="formData.Value" placeholder="请输入配置值" :maxlength="100" />
+        <el-form-item label="配置值" prop="value">
+          <el-input v-model="formData.value" placeholder="请输入配置值" :maxlength="100" />
         </el-form-item>
         <el-form-item label="描述" prop="remark">
           <el-input
@@ -160,16 +160,16 @@ const dialog = reactive({
 
 const formData = reactive<ConfigForm>({
   id: undefined,
-  Name: "",
-  Key: "",
-  Value: "",
+  name: "",
+  key: "",
+  value: "",
   remark: "",
 });
 
 const rules = reactive({
-  Name: [{ required: true, message: "请输入系统配置名称", trigger: "blur" }],
-  Key: [{ required: true, message: "请输入系统配置编码", trigger: "blur" }],
-  Value: [{ required: true, message: "请输入系统配置值", trigger: "blur" }],
+  name: [{ required: true, message: "请输入系统配置名称", trigger: "blur" }],
+  key: [{ required: true, message: "请输入系统配置编码", trigger: "blur" }],
+  value: [{ required: true, message: "请输入系统配置值", trigger: "blur" }],
 });
 
 // 查询系统配置
