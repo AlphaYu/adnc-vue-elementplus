@@ -5,11 +5,11 @@ export const useDictStore = defineStore("dict", () => {
   const dictionary = useStorage<Record<string, DictData[]>>("dictionary", {});
 
   const setDictionary = (dict: DictVO) => {
-    dictionary.value[dict.dictCode] = dict.dictDataList;
+    dictionary.value[dict.code] = dict.dictDataList;
   };
 
   const loadDictionaries = async () => {
-    const dictList = await DictionaryAPI.getList();
+    const dictList = await DictionaryAPI.getOptions();
     dictList.forEach(setDictionary);
   };
 

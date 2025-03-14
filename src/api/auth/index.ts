@@ -6,7 +6,7 @@ const AuthAPI = {
   /** 登录接口*/
   login(data: LoginFormData) {
     const formData = new FormData();
-    formData.append("account", data.username);
+    formData.append("account", data.account);
     formData.append("password", data.password);
     formData.append("captchaKey", data.captchaKey);
     formData.append("captchaCode", data.captchaCode);
@@ -44,6 +44,18 @@ const AuthAPI = {
   getCaptcha() {
     return request<any, CaptchaInfo>({
       url: `${AUTH_BASE_URL}/captcha`,
+      method: "get",
+    });
+  },
+
+  /**
+   * 获取当前登录用户信息
+   *
+   * @returns 登录用户昵称、头像信息，包括角色和权限
+   */
+  getInfo() {
+    return request<any, UserInfo>({
+      url: `${AUTH_BASE_URL}/userinfo`,
       method: "get",
     });
   },
@@ -116,7 +128,7 @@ export default AuthAPI;
 /** 登录表单数据 */
 export interface LoginFormData {
   /** 用户名 */
-  username: string;
+  account: string;
   /** 密码 */
   password: string;
   /** 验证码缓存key */
@@ -143,6 +155,27 @@ export interface CaptchaInfo {
   captchaKey: string;
   /** 验证码图片Base64字符串 */
   captchaBase64: string;
+}
+
+/** 登录用户信息 */
+export interface UserInfo {
+  /** 用户ID */
+  id?: number;
+
+  /** 用户名 */
+  account?: string;
+
+  /** 昵称 */
+  name?: string;
+
+  /** 头像URL */
+  avatar?: string;
+
+  /** 角色 */
+  roles: string[];
+
+  /** 权限 */
+  perms: string[];
 }
 
 /** 个人中心用户信息 */

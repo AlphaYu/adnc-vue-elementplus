@@ -70,13 +70,14 @@ const DictAPI = {
   },
 
   /**
-   * 获取字典列表
+   * 获取字典的数据项
    *
-   * @returns 字典列表
+   * @param dictCode 字典编码
+   * @returns 字典数据项
    */
-  getList() {
+  getOptions() {
     return request<any, DictVO[]>({
-      url: `${DICT_BASE_URL}/page`,
+      url: `${DICT_BASE_URL}/options`,
       method: "get",
     });
   },

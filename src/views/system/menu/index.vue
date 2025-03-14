@@ -331,7 +331,7 @@
 
 <script setup lang="ts">
 defineOptions({
-  name: "SysMenu",
+  name: "Menu",
   inheritAttrs: false,
 });
 

@@ -46,16 +46,16 @@
         --></div>
 
         <!-- 用户名 -->
-        <el-form-item prop="username">
+        <el-form-item prop="account">
           <div class="input-wrapper">
             <el-icon class="mx-2">
               <User />
             </el-icon>
             <el-input
-              ref="username"
-              v-model="loginFormData.username"
-              :placeholder="$t('login.username')"
-              name="username"
+              ref="account"
+              v-model="loginFormData.account"
+              :placeholder="$t('login.account')"
+              name="account"
               size="large"
               class="h-[48px]"
             />
@@ -171,7 +171,7 @@ const isCapslock = ref(false); // 是否大写锁定
 const captchaBase64 = ref(); // 验证码图片Base64字符串
 
 const loginFormData = ref<LoginFormData>({
-  username: "alpha2008",
+  account: "alpha2008",
   password: "alpha2008",
   captchaKey: "",
   captchaCode: "",
@@ -179,11 +179,11 @@ const loginFormData = ref<LoginFormData>({
 
 const loginRules = computed(() => {
   return {
-    username: [
+    account: [
       {
         required: true,
         trigger: "blur",
-        message: t("login.message.username.required"),
+        message: t("login.message.account.required"),
       },
     ],
     password: [
@@ -226,7 +226,7 @@ async function handleLoginSubmit() {
         .then(async () => {
           await userStore.getUserInfo();
           // 需要在路由跳转前加载字典数据，否则会出现字典数据未加载完成导致页面渲染异常
-          // await dictStore.loadDictionaries();
+          await dictStore.loadDictionaries();
           // 跳转到登录前的页面
           const { path, queryParams } = parseRedirect();
           router.push({ path: path, query: queryParams });
@@ -279,8 +279,8 @@ function checkCapslock(event: KeyboardEvent) {
 }
 
 // 设置登录凭证
-const setLoginCredentials = (username: string, password: string) => {
-  loginFormData.value.username = username;
+const setLoginCredentials = (account: string, password: string) => {
+  loginFormData.value.account = account;
   loginFormData.value.password = password;
 };
 

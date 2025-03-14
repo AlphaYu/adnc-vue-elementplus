@@ -6,7 +6,7 @@ export default {
   },
   // 登录页面国际化
   login: {
-    username: "Username",
+    account: "Username",
     password: "Password",
     login: "Login",
     captchaCode: "Verify Code",
@@ -14,8 +14,8 @@ export default {
     rememberMe: "Remember Me",
     forgetPassword: "Forget Password",
     message: {
-      username: {
-        required: "Please enter Username",
+      account: {
+        required: "Please enter account",
       },
       password: {
         required: "Please enter Password",

@@ -80,11 +80,11 @@ export interface ConfigForm {
   /** 主键 */
   id?: number;
   /** 配置名称 */
-  Name?: string;
+  name?: string;
   /** 配置键 */
-  Key?: string;
+  key?: string;
   /** 配置值 */
-  Value?: string;
+  value?: string;
   /** 描述、备注 */
   remark?: string;
 }
@@ -94,11 +94,11 @@ export interface ConfigPageVO {
   /** 主键 */
   id?: number;
   /** 配置名称 */
-  Name?: string;
+  name?: string;
   /** 配置键 */
-  Key?: string;
+  key?: string;
   /** 配置值 */
-  Value?: string;
+  value?: string;
   /** 描述、备注 */
   remark?: string;
 }
