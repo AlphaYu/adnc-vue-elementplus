@@ -1,14 +1,14 @@
 import axios, { type InternalAxiosRequestConfig, type AxiosResponse } from "axios";
 import qs from "qs";
-// import { useUserStoreHook } from "@/store/modules/user";
 // import { ResultEnum } from "@/enums/ResultEnum";
 import { getAccessToken } from "@/utils/auth";
 import router from "@/router";
+import { useUserStoreHook } from "@/store/modules/user";
 
 // 创建 axios 实例
 const service = axios.create({
   baseURL: import.meta.env.VITE_APP_BASE_API,
-  timeout: 50000,
+  timeout: 5000,
   headers: { "Content-Type": "application/json;charset=utf-8" },
   paramsSerializer: (params) => qs.stringify(params),
 });
@@ -51,7 +51,11 @@ service.interceptors.response.use(
       if (status === 401) {
         console.log("===401");
         const backtoUrl = encodeURIComponent(router.currentRoute.value.fullPath);
-        router.push(`/login?backto=${backtoUrl}`);
+        useUserStoreHook()
+          .clearUserData()
+          .then(() => {
+            router.push(`/login?redirect=${backtoUrl}`);
+          });
       }
       // if (code === ResultEnum.ACCESS_TOKEN_INVALID) {
       //   // Token 过期，刷新 Token

@@ -2,8 +2,7 @@ import { store } from "@/store";
 import { usePermissionStoreHook } from "@/store/modules/permission";
 import { useDictStoreHook } from "@/store/modules/dict";
 
-import AuthAPI, { type LoginFormData } from "@/api/auth";
-import UserAPI, { type UserInfo } from "@/api/system/user";
+import AuthAPI, { type LoginFormData, type UserInfo } from "@/api/auth";
 
 import { setAccessToken, setRefreshToken, getRefreshToken, clearToken } from "@/utils/auth";
 
@@ -77,8 +76,8 @@ export const useUserStore = defineStore("user", () => {
     return new Promise<void>((resolve, reject) => {
       AuthAPI.refreshToken(refreshToken)
         .then((data) => {
-          const { accessToken, refreshToken } = data;
-          setAccessToken(accessToken);
+          const { token, refreshToken } = data;
+          setAccessToken(token);
           setRefreshToken(refreshToken);
           resolve();
         })

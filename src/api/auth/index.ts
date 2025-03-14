@@ -5,15 +5,15 @@ const AUTH_BASE_URL = "/auth/session";
 const AuthAPI = {
   /** 登录接口*/
   login(data: LoginFormData) {
-    const formData = new FormData();
-    formData.append("account", data.account);
-    formData.append("password", data.password);
-    formData.append("captchaKey", data.captchaKey);
-    formData.append("captchaCode", data.captchaCode);
+    // const formData = new FormData();
+    // formData.append("account", data.account);
+    // formData.append("password", data.password);
+    // formData.append("captchaKey", data.captchaKey);
+    // formData.append("captchaCode", data.captchaCode);
     return request<any, LoginResult>({
       url: `${AUTH_BASE_URL}`,
       method: "post",
-      data: formData,
+      data: data,
       // headers: {
       //   "Content-Type": "multipart/form-data",
       // },
@@ -140,7 +140,7 @@ export interface LoginFormData {
 /** 登录响应 */
 export interface LoginResult {
   /** 访问令牌 */
-  accessToken: string;
+  token: string;
   /** 刷新令牌 */
   refreshToken: string;
   /** 令牌类型 */
