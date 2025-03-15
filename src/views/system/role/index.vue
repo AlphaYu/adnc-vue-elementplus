@@ -20,8 +20,21 @@
 
     <el-card shadow="never">
       <div class="mb-10px">
-        <el-button type="success" icon="plus" @click="handleOpenDialog()">新增</el-button>
-        <el-button type="danger" :disabled="ids.length === 0" icon="delete" @click="handleDelete()">
+        <el-button
+          v-hasPerm="['role-create']"
+          type="success"
+          icon="plus"
+          @click="handleOpenDialog()"
+        >
+          新增
+        </el-button>
+        <el-button
+          v-hasPerm="['role-delete']"
+          type="danger"
+          :disabled="ids.length === 0"
+          icon="delete"
+          @click="handleDelete()"
+        >
           删除
         </el-button>
       </div>
@@ -50,6 +63,7 @@
         <el-table-column fixed="right" label="操作" width="220">
           <template #default="scope">
             <el-button
+              v-hasPerm="['role-setperms']"
               type="primary"
               size="small"
               link
@@ -59,6 +73,7 @@
               分配权限
             </el-button>
             <el-button
+              v-hasPerm="['role-update']"
               type="primary"
               size="small"
               link
@@ -68,6 +83,7 @@
               编辑
             </el-button>
             <el-button
+              v-hasPerm="['role-delete']"
               type="danger"
               size="small"
               link

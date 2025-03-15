@@ -377,7 +377,7 @@ const rules = reactive({
 });
 
 // 选择表格的行菜单ID
-const selectedMenuId = ref<string | undefined>();
+const selectedMenuId = ref<string | number | undefined>();
 
 // 查询菜单
 function handleQuery() {

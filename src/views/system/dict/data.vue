@@ -48,6 +48,7 @@
         <el-table-column fixed="right" label="操作" align="center" width="220">
           <template #default="scope">
             <el-button
+              v-hasPerm="['dictdata-update']"
               type="primary"
               link
               size="small"
@@ -57,6 +58,7 @@
               编辑
             </el-button>
             <el-button
+              v-hasPerm="['dictdata-delete']"
               type="danger"
               link
               size="small"

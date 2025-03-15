@@ -20,8 +20,16 @@
 
     <el-card shadow="never">
       <div class="mb-[10px]">
-        <el-button type="success" icon="plus" @click="handleAddClick()">新增</el-button>
-        <el-button type="danger" :disabled="ids.length === 0" icon="delete" @click="handleDelete()">
+        <el-button v-hasPerm="['dict-create']" type="success" icon="plus" @click="handleAddClick()">
+          新增
+        </el-button>
+        <el-button
+          v-hasPerm="['dict-delete']"
+          type="danger"
+          :disabled="ids.length === 0"
+          icon="delete"
+          @click="handleDelete()"
+        >
           删除
         </el-button>
       </div>
@@ -45,7 +53,13 @@
         </el-table-column>
         <el-table-column fixed="right" label="操作" align="center" width="220">
           <template #default="scope">
-            <el-button type="primary" link size="small" @click.stop="handleOpenDictData(scope.row)">
+            <el-button
+              v-hasPerm="['dictdata-search']"
+              type="primary"
+              link
+              size="small"
+              @click.stop="handleOpenDictData(scope.row)"
+            >
               <template #icon>
                 <Collection />
               </template>
@@ -53,6 +67,7 @@
             </el-button>
 
             <el-button
+              v-hasPerm="['dict-update']"
               type="primary"
               link
               size="small"
@@ -62,6 +77,7 @@
               编辑
             </el-button>
             <el-button
+              v-hasPerm="['dict-delete']"
               type="danger"
               link
               size="small"
