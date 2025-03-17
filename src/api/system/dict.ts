@@ -75,10 +75,11 @@ const DictAPI = {
    * @param dictCode 字典编码
    * @returns 字典数据项
    */
-  getOptions() {
+  getOptions(codes: string) {
     return request<any, DictVO[]>({
       url: `${DICT_BASE_URL}/options`,
       method: "get",
+      params: { codes: codes },
     });
   },
 };

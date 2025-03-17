@@ -9,7 +9,7 @@ export const useDictStore = defineStore("dict", () => {
   };
 
   const loadDictionaries = async () => {
-    const dictList = await DictionaryAPI.getOptions();
+    const dictList = await DictionaryAPI.getOptions("all");
     dictList.forEach(setDictionary);
   };
 
