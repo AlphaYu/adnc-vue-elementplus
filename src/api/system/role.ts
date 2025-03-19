@@ -41,7 +41,7 @@ const RoleAPI = {
   updateRoleMenus(roleId: number, data: number[]) {
     return request({
       url: `${ROLE_BASE_URL}/${roleId}/permissons`,
-      method: "put",
+      method: "patch",
       data: data,
     });
   },

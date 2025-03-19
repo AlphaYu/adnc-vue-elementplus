@@ -3,6 +3,7 @@
     <iframe frameborder="0" :src="iframeSrcUrl" />
   </div>
 </template>
+
 <script lang="ts" setup name="CustCapDashboard">
 import { getAccessToken } from "@/utils/auth";
 const baseUrl = import.meta.env.VITE_APP_BASE_API;
@@ -10,6 +11,7 @@ var token = getAccessToken();
 const iframeSrcUrl =
   baseUrl + "/cust/cap/index.html?perm=eventbus-cust-dashboard&access_token=" + token;
 </script>
+
 <style lang="scss" scoped>
 /** 关闭tag标签  */
 .app-container {

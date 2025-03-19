@@ -12,7 +12,7 @@ const UserAPI = {
   resetPassword(id: number, password: string) {
     return request({
       url: `${USER_BASE_URL}/${id}/password`,
-      method: "put",
+      method: "patch",
       params: { password: password },
     });
   },

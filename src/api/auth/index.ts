@@ -72,7 +72,7 @@ const AuthAPI = {
   updateProfile(data: UserProfileForm) {
     return request({
       url: `${AUTH_BASE_URL}/profile`,
-      method: "put",
+      method: "patch",
       data: data,
     });
   },
@@ -81,7 +81,7 @@ const AuthAPI = {
   changePassword(data: PasswordChangeForm) {
     return request({
       url: `${AUTH_BASE_URL}/password`,
-      method: "put",
+      method: "patch",
       data: data,
     });
   },
@@ -90,7 +90,7 @@ const AuthAPI = {
   sendMobileCode(mobile: string) {
     return request({
       url: `${AUTH_BASE_URL}/mobile/code`,
-      method: "put",
+      method: "patch",
       params: { mobile: mobile },
     });
   },
@@ -99,7 +99,7 @@ const AuthAPI = {
   bindOrChangeMobile(data: MobileUpdateForm) {
     return request({
       url: `${AUTH_BASE_URL}/mobile`,
-      method: "put",
+      method: "patch",
       data: data,
     });
   },
@@ -108,7 +108,7 @@ const AuthAPI = {
   sendEmailCode(email: string) {
     return request({
       url: `${AUTH_BASE_URL}/email/code`,
-      method: "put",
+      method: "patch",
       params: { email: email },
     });
   },
@@ -117,7 +117,7 @@ const AuthAPI = {
   bindOrChangeEmail(data: EmailUpdateForm) {
     return request({
       url: `${AUTH_BASE_URL}/email`,
-      method: "put",
+      method: "patch",
       data: data,
     });
   },
