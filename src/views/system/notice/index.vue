@@ -153,7 +153,7 @@
       <pagination
         v-if="total > 0"
         v-model:total="total"
-        v-model:page="queryParams.pageNum"
+        v-model:page="queryParams.pageIndex"
         v-model:limit="queryParams.pageSize"
         @pagination="handleQuery()"
       />
@@ -270,7 +270,7 @@ const selectIds = ref<number[]>([]);
 const total = ref(0);
 
 const queryParams = reactive<NoticePageQuery>({
-  pageNum: 1,
+  pageIndex: 1,
   pageSize: 10,
 });
 
@@ -331,7 +331,7 @@ function handleQuery() {
 // 重置查询
 function handleResetQuery() {
   queryFormRef.value!.resetFields();
-  queryParams.pageNum = 1;
+  queryParams.pageIndex = 1;
   handleQuery();
 }
 
