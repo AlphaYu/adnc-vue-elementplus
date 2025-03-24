@@ -125,7 +125,7 @@
         <pagination
           v-if="total > 0"
           v-model:total="total"
-          v-model:page="queryParams.pageNum"
+          v-model:page="queryParams.pageIndex"
           v-model:limit="queryParams.pageSize"
           @pagination="handlePagination"
         />
@@ -221,11 +221,11 @@ const pageData = ref<IObject[]>([]);
 const pageSize = 10;
 // 搜索参数
 const queryParams = reactive<{
-  pageNum: number;
+  pageIndex: number;
   pageSize: number;
   [key: string]: any;
 }>({
-  pageNum: 1,
+  pageIndex: 1,
   pageSize: pageSize,
 });
 
@@ -256,7 +256,7 @@ function handleQuery() {
 function fetchPageData(isRestart = false) {
   loading.value = true;
   if (isRestart) {
-    queryParams.pageNum = 1;
+    queryParams.pageIndex = 1;
     queryParams.pageSize = pageSize;
   }
   props.selectConfig

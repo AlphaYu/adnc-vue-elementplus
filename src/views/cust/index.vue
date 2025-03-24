@@ -188,7 +188,7 @@ function hancleResetPassword(row: CustmerPageVO) {
         ElMessage.warning("金额必须大于1，请重新输入");
         return false;
       }
-      CustAPI.recharge(row.id, value).then(() => {
+      CustAPI.recharge(row.id, value as unknown as number).then(() => {
         ElMessage.success("充值成功，充值金额是：" + value);
         handleResetQuery();
       });

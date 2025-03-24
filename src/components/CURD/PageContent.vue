@@ -532,7 +532,7 @@ const pagination = reactive(
 );
 // 分页相关的请求参数
 const request = props.contentConfig.request ?? {
-  pageName: "pageNum",
+  pageName: "pageIndex",
   limitName: "pageSize",
 };
 

@@ -129,7 +129,7 @@ watch(
  * 获取我的通知公告
  */
 function featchMyNotice() {
-  NoticeAPI.getMyNoticePage({ pageNum: 1, pageSize: 5, isRead: 0 }).then((data) => {
+  NoticeAPI.getMyNoticePage({ pageIndex: 1, pageSize: 5, isRead: 0 }).then((data) => {
     noticeList.value = data.list;
   });
 }

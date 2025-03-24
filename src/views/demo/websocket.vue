@@ -69,8 +69,8 @@
               :class="[
                 message.type === 'tip' ? 'system-notice' : 'chat-message',
                 {
-                  'chat-message--sent': message.sender === userStore.userInfo.username,
-                  'chat-message--received': message.sender !== userStore.userInfo.username,
+                  'chat-message--sent': message.sender === userStore.userInfo.account,
+                  'chat-message--received': message.sender !== userStore.userInfo.account,
                 },
               ]"
             >
@@ -78,8 +78,8 @@
                 <div class="chat-message__content">
                   <div
                     :class="{
-                      'chat-message__sender': message.sender === userStore.userInfo.username,
-                      'chat-message__receiver': message.sender !== userStore.userInfo.username,
+                      'chat-message__sender': message.sender === userStore.userInfo.account,
+                      'chat-message__receiver': message.sender !== userStore.userInfo.account,
                     }"
                   >
                     {{ message.sender }}
@@ -113,7 +113,7 @@ const messages = ref<MessageType[]>([]);
 // 广播消息内容
 const topicMessage = ref("亲爱的朋友们，系统已恢复最新状态。");
 // 点对点消息内容（默认示例）
-const queneMessage = ref("Hi, " + userStore.userInfo.username + " 这里是点对点消息示例！");
+const queneMessage = ref("Hi, " + userStore.userInfo.account + " 这里是点对点消息示例！");
 const receiver = ref("root");
 
 // 调用 useStomp hook，默认使用 socketEndpoint 和 token（此处用 getAccessToken()）
@@ -172,7 +172,7 @@ function sendToAll() {
       body: topicMessage.value,
     });
     messages.value.push({
-      sender: userStore.userInfo.username,
+      sender: userStore.userInfo.account,
       content: topicMessage.value,
     });
   }
@@ -186,7 +186,7 @@ function sendToUser() {
       body: queneMessage.value,
     });
     messages.value.push({
-      sender: userStore.userInfo.username,
+      sender: userStore.userInfo.account,
       content: queneMessage.value,
     });
   }

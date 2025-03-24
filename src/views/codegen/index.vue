@@ -78,7 +78,7 @@
       <pagination
         v-if="total > 0"
         v-model:total="total"
-        v-model:page="queryParams.pageNum"
+        v-model:page="queryParams.pageIndex"
         v-model:limit="queryParams.pageSize"
         @pagination="handleQuery"
       />
@@ -439,7 +439,7 @@ const treeData = ref<TreeNode[]>([]);
 
 const queryFormRef = ref();
 const queryParams = reactive<TablePageQuery>({
-  pageNum: 1,
+  pageIndex: 1,
   pageSize: 10,
 });
 
@@ -642,7 +642,7 @@ function handleQuery() {
 /** 重置查询 */
 function handleResetQuery() {
   queryFormRef.value.resetFields();
-  queryParams.pageNum = 1;
+  queryParams.pageIndex = 1;
   handleQuery();
 }
 
@@ -655,10 +655,10 @@ async function handleOpenDialog(tableName: string) {
 
   currentTableName.value = tableName;
   // 获取字典数据
-  DictAPI.getList().then((data) => {
+  DictAPI.getOptions("all").then((data) => {
     dictOptions.value = data.map((item) => ({
       label: item.name,
-      value: item.dictCode,
+      value: item.code,
     }));
     loading.value = true;
     GeneratorAPI.getGenConfig(tableName)
