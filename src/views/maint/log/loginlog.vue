@@ -32,8 +32,8 @@
 
     <el-card shadow="never">
       <el-table v-loading="loading" :data="pageData" highlight-current-row border>
-        <el-table-column label="登录时间" prop="createTime" width="140" />
-        <el-table-column label="登录Id" prop="userId" width="140" />
+        <el-table-column label="登录时间" prop="createTime" width="180" />
+        <el-table-column label="登录Id" prop="userId" width="150" />
         <el-table-column label="登录账号" prop="account" width="100" />
         <el-table-column label="登录人" prop="name" width="100" />
         <el-table-column label="状态码" prop="statusCode" width="80" />
@@ -41,7 +41,7 @@
         <el-table-column label="日志内容" prop="message" min-width="200" show-overflow-tooltip />
         <el-table-column label="IP 地址" prop="remoteIpAddress" width="150" />
         <el-table-column label="成功" prop="succeed" width="80" />
-        <el-table-column label="执行时间(ms)" prop="executionTime" width="100" />
+        <el-table-column label="时间(ms)" prop="executionTime" width="100" />
       </el-table>
 
       <pagination

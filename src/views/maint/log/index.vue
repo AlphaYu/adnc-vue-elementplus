@@ -32,16 +32,16 @@
 
     <el-card shadow="never">
       <el-table v-loading="loading" :data="pageData" highlight-current-row border>
-        <el-table-column label="操作时间" prop="createTime" width="140" />
+        <el-table-column label="操作时间" prop="createTime" width="170" />
         <el-table-column label="操作账号" prop="account" width="100" />
         <el-table-column label="操作人" prop="name" width="100" />
         <el-table-column label="类" prop="className" width="200" show-overflow-tooltip />
-        <el-table-column label="方法" prop="method" width="200" />
-        <el-table-column label="方法名" prop="logName" width="100" />
-        <el-table-column label="日志内容" prop="message" min-width="200" show-overflow-tooltip />
-        <el-table-column label="IP 地址" prop="remoteIpAddress" width="100" />
-        <el-table-column label="成功" prop="succeed" width="60" />
-        <el-table-column label="执行时间(ms)" prop="executionTime" width="100" />
+        <el-table-column label="方法" prop="method" width="200" show-overflow-tooltip />
+        <el-table-column label="方法名" prop="logName" width="120" />
+        <el-table-column label="日志内容" prop="message" min-width="180" show-overflow-tooltip />
+        <el-table-column label="IP 地址" prop="remoteIpAddress" width="120" />
+        <el-table-column label="成功" prop="succeed" width="80" />
+        <el-table-column label="时间(ms)" prop="executionTime" width="100" />
       </el-table>
 
       <pagination

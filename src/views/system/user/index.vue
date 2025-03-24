@@ -97,7 +97,13 @@
                 </el-tag>
               </template>
             </el-table-column>
-            <el-table-column label="部门" width="120" align="center" prop="deptName" />
+            <el-table-column
+              label="部门"
+              width="120"
+              align="center"
+              prop="deptName"
+              show-overflow-tooltip
+            />
             <el-table-column label="手机号码" align="center" prop="mobile" width="120" />
             <el-table-column label="邮箱" align="center" prop="email" width="160" />
             <el-table-column label="状态" align="center" prop="status" width="80">
@@ -107,7 +113,13 @@
                 </el-tag>
               </template>
             </el-table-column>
-            <el-table-column label="创建时间" align="center" prop="createTime" width="150" />
+            <el-table-column
+              label="创建时间"
+              align="center"
+              prop="createTime"
+              width="150"
+              show-overflow-tooltip
+            />
             <el-table-column label="操作" fixed="right" width="220">
               <template #default="scope">
                 <el-button

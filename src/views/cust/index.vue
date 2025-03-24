@@ -190,7 +190,7 @@ function hancleResetPassword(row: CustmerPageVO) {
       }
       CustAPI.recharge(row.id, value as unknown as number).then(() => {
         ElMessage.success("充值成功，充值金额是：" + value);
-        handleResetQuery();
+        // handleResetQuery();
       });
     },
     () => {
