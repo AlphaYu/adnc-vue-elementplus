@@ -19,7 +19,6 @@
       <el-form ref="loginFormRef" :model="loginFormData" :rules="loginRules">
         <div class="form-title">
           <h2>{{ defaultSettings.title }}</h2>
-          <!--
           <el-dropdown style="position: absolute; right: 0">
             <div class="cursor-pointer">
               <el-icon>
@@ -31,19 +30,28 @@
                 <el-dropdown-item>
                   <el-tag>{{ defaultSettings.version }}</el-tag>
                 </el-dropdown-item>
-                <el-dropdown-item @click="setLoginCredentials('root', '123456')">
-                  超级管理员：root/123456
+                <el-dropdown-item @click="setLoginCredentials('alpha2007', 'alpha2007')">
+                  系统管理员：alpha2007/alpha2007
                 </el-dropdown-item>
-                <el-dropdown-item @click="setLoginCredentials('admin', '123456')">
-                  系统管理员：admin/123456
+                <el-dropdown-item @click="setLoginCredentials('alpha2008', 'alpha2008')">
+                  系统管理员：alpha2008/alpha2008
                 </el-dropdown-item>
-                <el-dropdown-item @click="setLoginCredentials('test', '123456')">
-                  测试小游客：test/123456
+                <el-dropdown-item @click="setLoginCredentials('alpha2009', 'alpha2009')">
+                  系统管理员：alpha2009/alpha2009
+                </el-dropdown-item>
+                <el-dropdown-item @click="setLoginCredentials('alpha2010', 'alpha2010')">
+                  访客：alpha2010/alpha2010
+                </el-dropdown-item>
+                <el-dropdown-item @click="setLoginCredentials('alpha2011', 'alpha2011')">
+                  访客：alpha2011/alpha2011
+                </el-dropdown-item>
+                <el-dropdown-item @click="setLoginCredentials('alpha2012', 'alpha2012')">
+                  访客：alpha2012/alpha2012
                 </el-dropdown-item>
               </el-dropdown-menu>
             </template>
           </el-dropdown>
-        --></div>
+        </div>
 
         <!-- 用户名 -->
         <el-form-item prop="account">
@@ -332,7 +340,7 @@ onMounted(() => {
     border-radius: 5px;
     box-shadow: var(--el-box-shadow-light);
 
-    @media (width <= 460px) {
+    @media (width <=460px) {
       width: 100%;
       padding: 20px;
     }
