@@ -87,8 +87,8 @@
 
           <el-table v-loading="loading" :data="pageData" @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="50" align="center" />
-            <el-table-column label="用户名" prop="account" />
-            <el-table-column label="昵称" width="150" align="center" prop="name" />
+            <el-table-column label="用户名" prop="account" width="100" />
+            <el-table-column label="昵称" width="100" align="center" prop="name" />
             <el-table-column label="性别" width="100" align="center">
               <template #default="scope">
                 <!--<DictLabel v-model="scope.row.gender" code="gender" />-->
@@ -99,7 +99,7 @@
             </el-table-column>
             <el-table-column
               label="部门"
-              width="120"
+              min-width="120"
               align="center"
               prop="deptName"
               show-overflow-tooltip
